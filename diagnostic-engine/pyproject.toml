@@ -1,0 +1,25 @@
+[project]
+name = "diagnostic-engine"
+version = "0.1.0"
+description = "Diagnostic Engine based on Bayesian Networks and Vector Space matching"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "grpcio>=1.62.1",
+    "grpcio-tools>=1.62.1",
+    "scikit-learn>=1.4.1",
+    "scipy>=1.12.0",
+    "pgmpy>=0.1.25",
+    "pymc>=5.10.4",
+    "spacy>=3.7.4",
+    "scispacy>=0.5.3",
+    "pydantic>=2.6.4"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.1.1",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.3.4",
+    "mypy>=1.9.0"
+]

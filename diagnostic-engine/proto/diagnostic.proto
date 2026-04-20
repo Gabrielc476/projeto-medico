@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package diagnostic;
+
+service DiagnosticService {
+  rpc ExtractContext(ContextExtractionRequest) returns (ContextExtractionResponse) {}
+  rpc AssessSymptoms(SymptomAssessmentRequest) returns (SymptomAssessmentResponse) {}
+}
+
+message ContextExtractionRequest {
+  string free_text = 1;
+}
+
+message ExtractedFeature {
+  string cui = 1;
+  string name = 2;
+  bool is_present = 3;
+}
+
+message ContextExtractionResponse {
+  repeated ExtractedFeature features = 1;
+}
+
+message SymptomAssessmentRequest {
+  repeated ExtractedFeature symptoms = 1;
+  repeated ExtractedFeature contextual_factors = 2; // priors
+}
+
+message RankedDisease {
+  string disease_id = 1;
+  string disease_name = 2;
+  float posterior_probability = 3;
+  float likelihood_ratio_positive = 4;
+  float likelihood_ratio_negative = 5;
+  float tf_idf_score = 6;
+}
+
+message SymptomAssessmentResponse {
+  repeated RankedDisease ranked_diseases = 1;
+}
