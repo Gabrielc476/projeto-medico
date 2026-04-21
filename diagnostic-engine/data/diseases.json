@@ -1,0 +1,86 @@
+[
+  {
+    "disease_id": "D001",
+    "name": "Community-Acquired Pneumonia",
+    "icd10_code": "J18.9",
+    "prevalence": 0.02,
+    "category": "respiratory"
+  },
+  {
+    "disease_id": "D002",
+    "name": "Influenza",
+    "icd10_code": "J11.1",
+    "prevalence": 0.08,
+    "category": "respiratory"
+  },
+  {
+    "disease_id": "D003",
+    "name": "Acute Bronchitis",
+    "icd10_code": "J20.9",
+    "prevalence": 0.05,
+    "category": "respiratory"
+  },
+  {
+    "disease_id": "D004",
+    "name": "Asthma Exacerbation",
+    "icd10_code": "J45.9",
+    "prevalence": 0.04,
+    "category": "respiratory"
+  },
+  {
+    "disease_id": "D005",
+    "name": "Acute Myocardial Infarction",
+    "icd10_code": "I21.9",
+    "prevalence": 0.005,
+    "category": "cardiovascular"
+  },
+  {
+    "disease_id": "D006",
+    "name": "Gastroesophageal Reflux Disease",
+    "icd10_code": "K21.0",
+    "prevalence": 0.15,
+    "category": "gastrointestinal"
+  },
+  {
+    "disease_id": "D007",
+    "name": "Acute Gastroenteritis",
+    "icd10_code": "A09",
+    "prevalence": 0.06,
+    "category": "gastrointestinal"
+  },
+  {
+    "disease_id": "D008",
+    "name": "Tension-Type Headache",
+    "icd10_code": "G44.2",
+    "prevalence": 0.30,
+    "category": "neurological"
+  },
+  {
+    "disease_id": "D009",
+    "name": "Migraine",
+    "icd10_code": "G43.9",
+    "prevalence": 0.12,
+    "category": "neurological"
+  },
+  {
+    "disease_id": "D010",
+    "name": "Urinary Tract Infection",
+    "icd10_code": "N39.0",
+    "prevalence": 0.03,
+    "category": "genitourinary"
+  },
+  {
+    "disease_id": "D011",
+    "name": "Iron Deficiency Anemia",
+    "icd10_code": "D50.9",
+    "prevalence": 0.05,
+    "category": "hematological"
+  },
+  {
+    "disease_id": "D012",
+    "name": "Major Depressive Disorder",
+    "icd10_code": "F32.9",
+    "prevalence": 0.07,
+    "category": "psychiatric"
+  }
+]

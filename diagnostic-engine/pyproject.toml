@@ -23,3 +23,12 @@ dev = [
     "ruff>=0.3.4",
     "mypy>=1.9.0"
 ]
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.13"
+extraPaths = ["."]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

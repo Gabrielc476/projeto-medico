@@ -1,0 +1,212 @@
+[
+  {
+    "symptom_id": "S001",
+    "cui": "C0010200",
+    "name": "Cough",
+    "body_region": "thorax",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S002",
+    "cui": "C0015967",
+    "name": "Fever",
+    "body_region": null,
+    "is_constitutional": true
+  },
+  {
+    "symptom_id": "S003",
+    "cui": "C0013404",
+    "name": "Dyspnea",
+    "body_region": "thorax",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S004",
+    "cui": "C0008031",
+    "name": "Chest Pain",
+    "body_region": "thorax",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S005",
+    "cui": "C0018681",
+    "name": "Headache",
+    "body_region": "head",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S006",
+    "cui": "C0027497",
+    "name": "Nausea",
+    "body_region": "abdomen",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S007",
+    "cui": "C0042963",
+    "name": "Vomiting",
+    "body_region": "abdomen",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S008",
+    "cui": "C0011991",
+    "name": "Diarrhea",
+    "body_region": "abdomen",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S009",
+    "cui": "C0015672",
+    "name": "Fatigue",
+    "body_region": null,
+    "is_constitutional": true
+  },
+  {
+    "symptom_id": "S010",
+    "cui": "C0231528",
+    "name": "Myalgia",
+    "body_region": null,
+    "is_constitutional": true
+  },
+  {
+    "symptom_id": "S011",
+    "cui": "C0043144",
+    "name": "Wheezing",
+    "body_region": "thorax",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S012",
+    "cui": "C0019079",
+    "name": "Hemoptysis",
+    "body_region": "thorax",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S013",
+    "cui": "C0018834",
+    "name": "Heartburn",
+    "body_region": "thorax",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S014",
+    "cui": "C0085619",
+    "name": "Dysuria",
+    "body_region": "pelvis",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S015",
+    "cui": "C0032617",
+    "name": "Pollakiuria",
+    "body_region": "pelvis",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S016",
+    "cui": "C0030193",
+    "name": "Abdominal Pain",
+    "body_region": "abdomen",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S017",
+    "cui": "C0039070",
+    "name": "Syncope",
+    "body_region": null,
+    "is_constitutional": true
+  },
+  {
+    "symptom_id": "S018",
+    "cui": "C0012833",
+    "name": "Dizziness",
+    "body_region": "head",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S019",
+    "cui": "C0038990",
+    "name": "Diaphoresis",
+    "body_region": null,
+    "is_constitutional": true
+  },
+  {
+    "symptom_id": "S020",
+    "cui": "C0003467",
+    "name": "Anorexia",
+    "body_region": null,
+    "is_constitutional": true
+  },
+  {
+    "symptom_id": "S021",
+    "cui": "C0030252",
+    "name": "Palpitations",
+    "body_region": "thorax",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S022",
+    "cui": "C0020649",
+    "name": "Hypotension",
+    "body_region": null,
+    "is_constitutional": true
+  },
+  {
+    "symptom_id": "S023",
+    "cui": "C0085631",
+    "name": "Insomnia",
+    "body_region": null,
+    "is_constitutional": true
+  },
+  {
+    "symptom_id": "S024",
+    "cui": "C0581394",
+    "name": "Depressed Mood",
+    "body_region": null,
+    "is_constitutional": true
+  },
+  {
+    "symptom_id": "S025",
+    "cui": "C0003123",
+    "name": "Anhedonia",
+    "body_region": null,
+    "is_constitutional": true
+  },
+  {
+    "symptom_id": "S026",
+    "cui": "C0030920",
+    "name": "Pallor",
+    "body_region": null,
+    "is_constitutional": true
+  },
+  {
+    "symptom_id": "S027",
+    "cui": "C0037763",
+    "name": "Sore Throat",
+    "body_region": "head",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S028",
+    "cui": "C0024115",
+    "name": "Photophobia",
+    "body_region": "head",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S029",
+    "cui": "C0037090",
+    "name": "Rhinorrhea",
+    "body_region": "head",
+    "is_constitutional": false
+  },
+  {
+    "symptom_id": "S030",
+    "cui": "C0043094",
+    "name": "Weight Loss",
+    "body_region": null,
+    "is_constitutional": true
+  }
+]

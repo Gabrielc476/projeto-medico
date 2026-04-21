@@ -111,10 +111,14 @@ npm run start:dev
 
 ```bash
 cd diagnostic-engine
-uv venv
-source .venv/bin/activate # ou .venv\Scripts\activate no Windows
-uv pip install -r requirements.txt
-python src/main.py
+python -m venv .venv
+source .venv/bin/activate    # Linux/macOS
+# ou: .venv\Scripts\activate # Windows
+
+pip install -e ".[dev]"      # Instala todas as dependências + dev tools
+python scripts/compile_proto.py  # Compila os stubs gRPC
+python -m pytest tests/ -v   # Roda os 67 testes
+python src/main.py           # Inicia o servidor gRPC na porta 50051
 ```
 
 ### 5. Configurar o Painel Clínico Web (Next.js)
@@ -145,9 +149,34 @@ A plataforma foi desenhada seguindo o princípio **Security by Design** (LGPD / 
 
 ---
 
+## 📊 Status do Projeto
+
+| Módulo | Status | Testes |
+|--------|--------|--------|
+| 🐍 Motor Python — Algoritmos (Bayes + TF-IDF) | ✅ Completo | 67/67 |
+| 🐍 Motor Python — gRPC Server | ✅ Completo | 12/12 |
+| 🐍 Motor Python — NLP (scispaCy) | ⚠️ 80% (falta negação) | 1/1 |
+| 🔀 NestJS Gateway | 🔲 Não iniciado | — |
+| 📱 React Native App | 🔲 Não iniciado | — |
+| 🖥️ Next.js Admin | 🔲 Não iniciado | — |
+| 🐳 Docker / Infra | 🔲 Não iniciado | — |
+
+---
+
 ## 🎨 Design System
 
 Consulte estritamente o arquivo `DESIGN.md` na raiz do projeto antes de efetuar alterações de UI. Toda a aplicação é estritamente aderente ao padrão Linear-inspired, dark-mode-first com espaçamentos padronizados e a tipografia `Inter`.
+
+---
+
+## 📖 Documentação (Obsidian)
+
+O diretório `brain/` contém um vault Obsidian com documentação interligada do projeto:
+
+- `brain/00-Index.md` — Mapa de conteúdo principal
+- `brain/03-Motor-Python/` — 9 notas detalhadas sobre o motor de diagnóstico Python
+
+Abra a pasta `brain/` como vault no Obsidian para navegar com graph view e wikilinks.
 
 ---
 
