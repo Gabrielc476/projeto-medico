@@ -47,6 +47,7 @@ Siga esta ordem de leitura 👇
 | 6 | [[06 — NLP com scispaCy]] | Extração de sintomas do texto |
 | 7 | [[07 — gRPC e Comunicação]] | Como o NestJS conversa com o Python |
 | 8 | [[08 — Como Rodar e Testar]] | Comandos práticos |
+| 9 | [[09 — Docker e Infraestrutura]] | Containers e Hot Reload |
 
 ---
 

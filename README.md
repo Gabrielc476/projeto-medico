@@ -155,11 +155,11 @@ A plataforma foi desenhada seguindo o princípio **Security by Design** (LGPD / 
 |--------|--------|--------|
 | 🐍 Motor Python — Algoritmos (Bayes + TF-IDF) | ✅ Completo | 68/68 |
 | 🐍 Motor Python — gRPC Server | ✅ Completo | 12/12 |
-| 🐍 Motor Python — NLP (scispaCy) | ✅ Pronto para LLM | 2/2 |
+| 🐍 Motor Python — NLP (Gemma 4 31B) | ✅ Completo | 2/2 |
+| 🐳 Docker / Infra | ✅ Pronto (Hot Reload) | — |
 | 🔀 NestJS Gateway | 🔲 Não iniciado | — |
 | 📱 React Native App | 🔲 Não iniciado | — |
 | 🖥️ Next.js Admin | 🔲 Não iniciado | — |
-| 🐳 Docker / Infra | 🔲 Não iniciado | — |
 
 ---
 

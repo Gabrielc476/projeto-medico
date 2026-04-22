@@ -1,0 +1,26 @@
+services:
+  diagnostic-engine:
+    build:
+      context: ./diagnostic-engine
+      dockerfile: Dockerfile
+    container_name: diagnostic-engine
+    ports:
+      - "50051:50051"
+    env_file:
+      - ./diagnostic-engine/.env
+    volumes:
+      - ./diagnostic-engine:/app
+    # Hot Reload: Monitora mudanças em .py e .json e reinicia o servidor
+    command: >
+      watchmedo auto-restart 
+      --directory=./src 
+      --directory=./data 
+      --pattern="*.py;*.json" 
+      --recursive 
+      -- python src/main.py
+    networks:
+      - medical-network
+
+networks:
+  medical-network:
+    driver: bridge
