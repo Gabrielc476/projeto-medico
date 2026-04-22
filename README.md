@@ -117,7 +117,7 @@ source .venv/bin/activate    # Linux/macOS
 
 pip install -e ".[dev]"      # Instala todas as dependências + dev tools
 python scripts/compile_proto.py  # Compila os stubs gRPC
-python -m pytest tests/ -v   # Roda os 67 testes
+python -m pytest tests/ -v   # Roda os 68 testes
 python src/main.py           # Inicia o servidor gRPC na porta 50051
 ```
 
@@ -153,9 +153,9 @@ A plataforma foi desenhada seguindo o princípio **Security by Design** (LGPD / 
 
 | Módulo | Status | Testes |
 |--------|--------|--------|
-| 🐍 Motor Python — Algoritmos (Bayes + TF-IDF) | ✅ Completo | 67/67 |
+| 🐍 Motor Python — Algoritmos (Bayes + TF-IDF) | ✅ Completo | 68/68 |
 | 🐍 Motor Python — gRPC Server | ✅ Completo | 12/12 |
-| 🐍 Motor Python — NLP (scispaCy) | ⚠️ 80% (falta negação) | 1/1 |
+| 🐍 Motor Python — NLP (scispaCy) | ✅ Pronto para LLM | 2/2 |
 | 🔀 NestJS Gateway | 🔲 Não iniciado | — |
 | 📱 React Native App | 🔲 Não iniciado | — |
 | 🖥️ Next.js Admin | 🔲 Não iniciado | — |

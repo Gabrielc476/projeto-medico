@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# Diagnostic Engine specific
+diagnostic-engine/proto/*_pb2*.py
+diagnostic-engine/logs/
+
+# IDE
+.vscode/
+.idea/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Obsidian/Brain artifacts (if you don't want to version control them)
+# brain/**/scratch/

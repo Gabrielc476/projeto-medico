@@ -1,78 +1,83 @@
 ---
-title: NLP com scispaCy
+title: NLP e Extração com LLM
 tags:
   - diagnostic-engine
   - nlp
-  - scispacy
+  - gemma
+  - ai
 ---
 
-# 🔤 NLP com scispaCy
+# 🤖 NLP e Extração com LLM
 
 > [!abstract] Em uma frase
-> O scispaCy lê texto livre ("eu tenho dor de cabeça e febre") e extrai os **CUIs** dos sintomas médicos.
+> Transformamos o texto livre do paciente em dados estruturados (CUIs e Negação) usando o **Gemma 4 31B**.
 
 ---
 
-## 🎯 O Que Faz
+## 🚀 Arquitetura de Extração
+
+A extração não é mais baseada apenas em palavras-chave ou regras rígidas. Utilizamos um modelo de linguagem de grande porte (LLM) para entender o **contexto clínico**.
 
 ```mermaid
 graph LR
-    A["'Eu tenho dor de<br/>cabeça e febre'"] -->|scispaCy NER| B["Entidades Médicas"]
-    B --> C["CUI: C0018681<br/>Nome: Headache"]
-    B --> D["CUI: C0015967<br/>Nome: Fever"]
-```
-
-📄 `src/nlp/extractor.py`
-
----
-
-## 🧠 NER = Named Entity Recognition
-
-> [!tip] Analogia: Marca-texto 🖍️
-> Imagine que alguém passa um marca-texto automático no texto,
-> destacando APENAS os termos que são sintomas médicos.
-
-| Texto do Paciente | O que o NER encontra |
-|-------------------|---------------------|
-| "Eu tenho **dor de cabeça** forte" | `Headache` → `C0018681` |
-| "Sinto muita **febre** e **tosse**" | `Fever` → `C0015967`, `Cough` → `C0010200` |
-| "Estou bem, sem queixas" | *(nada encontrado)* |
-
----
-
-## 🔧 Como Usar
-
-```python
-extractor = ClinicalExtractor()
-features = extractor.extract_features("headache and fever")
-
-# Resultado:
-# [
-#   {"cui": "C0018681", "name": "headache", "is_present": True},
-#   {"cui": "C0015967", "name": "fever", "is_present": True}
-# ]
+    A["Texto Livre"] --> B["LLMExtractor (Gemma 4)"]
+    B --> C["JSON Estruturado"]
+    C --> D["Mapeamento CUI (UMLS)"]
+    C --> E["Detecção de Negação"]
+    D --> F["Motor Bayesiano"]
 ```
 
 ---
 
-## ⚠️ Limitação Atual
+## 🧠 Gemma 4 31B (via Google GenAI SDK)
 
-> [!warning] Negação NÃO é detectada ainda
-> Se o paciente diz **"não tenho febre"**, o sistema atual marca febre como **presente** ❌
->
-> Isso será resolvido com **NegEx/Negation Detection** numa fase futura.
+Implementamos o `LLMExtractor` que utiliza o modelo Gemma para extrair:
+- **Presença/Ausência**: Identifica se o sintoma é afirmado ou negado (Ex: "Não tenho febre" ➡️ `is_present: false`).
+- **Mapeamento CUI**: O prompt envia "hints" da Base de Conhecimento para garantir que a LLM use os CUIs corretos (ex: `C0037763` para Sore Throat).
+- **Contexto**: Extração de duração, gravidade e fatores de risco.
+
+📄 Arquivo: `src/nlp/llm_extractor.py`
 
 ---
 
-## 🔗 Conexão com o Resto
+## 🛡️ Fallback Estratégico (scispaCy)
 
-```mermaid
-graph LR
-    A["Texto Livre"] -->|scispaCy| B["CUIs"]
-    B -->|resolve_cuis_to_symptom_ids| C["Symptom IDs"]
-    C -->|rank_diseases| D["Ranking Bayesiano"]
-    B -->|score_diseases| E["Score TF-IDF"]
+Caso a API do Google esteja indisponível ou a chave não esteja configurada, o sistema reverte automaticamente para o **scispaCy** (`en_core_sci_sm`).
+
+1. **Camada 1 (LLM)**: Alta fidelidade, entende português/inglês e negação.
+2. **Camada 2 (scispaCy)**: NER médico básico para identificar entidades.
+3. **Camada 3 (Keywords)**: Última instância de busca literal.
+
+📄 Arquivo: `src/nlp/extractor.py`
+
+---
+
+## 🛠️ Exemplo de Processamento
+
+**Input:**
+> "Estou com dor de garganta intensa há 2 dias. Não tenho febre."
+
+**Output Estruturado:**
+```json
+{
+  "symptoms": [
+    { "cui": "C0037763", "name": "Sore Throat", "is_present": true, "confidence": 0.98 },
+    { "cui": "C0015967", "name": "Fever", "is_present": false, "confidence": 1.0 }
+  ],
+  "context": {
+    "duration": "2 days",
+    "severity": "intense"
+  }
+}
 ```
+
+---
+
+## ⚙️ Configuração
+
+Para o extrator funcionar, é necessário:
+1. Variável `GEMINI_API_KEY` no arquivo `.env`.
+2. SDK `google-genai` instalado.
 
 ---
 

@@ -68,12 +68,8 @@ Siga esta ordem de leitura 👇
 ## 📊 Status do Projeto
 
 - [x] Algoritmos matemáticos (Bayesian + TF-IDF)
-- [x] Base de conhecimento (12 doenças, 30 sintomas)
+- [x] Base de conhecimento (14 doenças, 31 sintomas)
 - [x] Modelos Pydantic com validação
-- [x] NLP com scispaCy
-- [x] gRPC compilado e funcional
-- [x] 67 testes passando ✅
-- [ ] Detecção de negação ("sem febre")
-- [ ] LLM para contextualização
-- [ ] Docker
+- [x] NLP e Contextualização com LLM (Gemma 4 31B) ✅
+- [ ] Docker (Configuração de produção)
 - [ ] Neo4j / PostgreSQL

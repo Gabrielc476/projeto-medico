@@ -104,7 +104,7 @@ class TestAssessSymptoms:
         )
         response = servicer.AssessSymptoms(request, mock_context)
         assert response is not None
-        assert len(response.ranked_diseases) == 12  # All diseases
+        assert len(response.ranked_diseases) == 14  # All diseases
 
     def test_assess_respiratory_symptoms_rank_pneumonia(
         self, servicer: DiagnosticServicer, mock_context: MagicMock
@@ -202,7 +202,7 @@ class TestAssessSymptoms:
         """No symptoms should return diseases ranked by base prevalence."""
         request = diagnostic_pb2.SymptomAssessmentRequest(symptoms=[])
         response = servicer.AssessSymptoms(request, mock_context)
-        assert len(response.ranked_diseases) == 12
+        assert len(response.ranked_diseases) == 14
 
     def test_assess_unknown_cui_handled_gracefully(
         self, servicer: DiagnosticServicer, mock_context: MagicMock
@@ -216,7 +216,7 @@ class TestAssessSymptoms:
             ]
         )
         response = servicer.AssessSymptoms(request, mock_context)
-        assert len(response.ranked_diseases) == 12
+        assert len(response.ranked_diseases) == 14
 
     def test_assess_ranked_descending(
         self, servicer: DiagnosticServicer, mock_context: MagicMock

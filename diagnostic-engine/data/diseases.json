@@ -82,5 +82,19 @@
     "icd10_code": "F32.9",
     "prevalence": 0.07,
     "category": "psychiatric"
+  },
+  {
+    "disease_id": "D013",
+    "name": "Acute Pharyngitis",
+    "icd10_code": "J02.9",
+    "prevalence": 0.12,
+    "category": "respiratory"
+  },
+  {
+    "disease_id": "D014",
+    "name": "Acute Laryngitis",
+    "icd10_code": "J04.0",
+    "prevalence": 0.03,
+    "category": "respiratory"
   }
 ]

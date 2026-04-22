@@ -208,5 +208,12 @@
     "name": "Weight Loss",
     "body_region": null,
     "is_constitutional": true
+  },
+  {
+    "symptom_id": "S031",
+    "cui": "C0019825",
+    "name": "Hoarseness",
+    "body_region": "head",
+    "is_constitutional": false
   }
 ]

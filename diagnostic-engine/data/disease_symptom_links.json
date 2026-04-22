@@ -229,5 +229,68 @@
   {
     "disease_id": "D012", "symptom_id": "S030",
     "sensitivity": 0.40, "specificity": 0.70, "link_probability": 0.35
+  },
+
+  {
+    "disease_id": "D002", "symptom_id": "S031",
+    "sensitivity": 0.35, "specificity": 0.70, "link_probability": 0.30
+  },
+  {
+    "disease_id": "D003", "symptom_id": "S031",
+    "sensitivity": 0.45, "specificity": 0.70, "link_probability": 0.40
+  },
+  {
+    "disease_id": "D006", "symptom_id": "S031",
+    "sensitivity": 0.25, "specificity": 0.75, "link_probability": 0.20
+  },
+  {
+    "disease_id": "D006", "symptom_id": "S027",
+    "sensitivity": 0.20, "specificity": 0.65, "link_probability": 0.15
+  },
+
+  {
+    "disease_id": "D013", "symptom_id": "S027",
+    "sensitivity": 0.95, "specificity": 0.60, "link_probability": 0.90
+  },
+  {
+    "disease_id": "D013", "symptom_id": "S002",
+    "sensitivity": 0.60, "specificity": 0.50, "link_probability": 0.55
+  },
+  {
+    "disease_id": "D013", "symptom_id": "S031",
+    "sensitivity": 0.30, "specificity": 0.70, "link_probability": 0.25
+  },
+  {
+    "disease_id": "D013", "symptom_id": "S005",
+    "sensitivity": 0.40, "specificity": 0.50, "link_probability": 0.35
+  },
+  {
+    "disease_id": "D013", "symptom_id": "S029",
+    "sensitivity": 0.50, "specificity": 0.50, "link_probability": 0.45
+  },
+  {
+    "disease_id": "D013", "symptom_id": "S010",
+    "sensitivity": 0.35, "specificity": 0.50, "link_probability": 0.30
+  },
+  {
+    "disease_id": "D013", "symptom_id": "S009",
+    "sensitivity": 0.45, "specificity": 0.40, "link_probability": 0.40
+  },
+
+  {
+    "disease_id": "D014", "symptom_id": "S031",
+    "sensitivity": 0.95, "specificity": 0.80, "link_probability": 0.90
+  },
+  {
+    "disease_id": "D014", "symptom_id": "S027",
+    "sensitivity": 0.70, "specificity": 0.55, "link_probability": 0.65
+  },
+  {
+    "disease_id": "D014", "symptom_id": "S001",
+    "sensitivity": 0.60, "specificity": 0.40, "link_probability": 0.55
+  },
+  {
+    "disease_id": "D014", "symptom_id": "S002",
+    "sensitivity": 0.25, "specificity": 0.55, "link_probability": 0.20
   }
 ]

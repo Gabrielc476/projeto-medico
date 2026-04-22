@@ -35,6 +35,18 @@ python scripts/compile_proto.py
 
 ---
 
+## 🔑 Configuração de API (LLM)
+
+Para rodar a extração semântica com o **Gemma 4 31B**, você precisa de uma chave de API:
+
+1. Crie um arquivo `.env` na raiz da pasta `diagnostic-engine`.
+2. Adicione sua chave:
+   ```env
+   GEMINI_API_KEY=sua_chave_aqui
+   ```
+
+---
+
 ## 🧪 Rodar os Testes
 
 ```bash
@@ -43,9 +55,6 @@ python -m pytest tests/ -v
 
 # Só um arquivo específico
 python -m pytest tests/test_grpc_service.py -v
-
-# Com cobertura de código
-python -m pytest tests/ --cov=src --cov-report=term
 ```
 
 ### O que cada arquivo testa
@@ -54,11 +63,26 @@ python -m pytest tests/ --cov=src --cov-report=term
 |-----------------|------------|-----|
 | `test_clinical_math.py` | Noisy-OR, Log-Odds, TF-IDF puro | 3 |
 | `test_models.py` | Validação Pydantic (Disease, Symptom, Link) | 19 |
-| `test_knowledge_base.py` | Carregamento JSON, lookups, resolução CUI | 19 |
+| `test_knowledge_base.py` | Carregamento JSON, lookups, resolução CUI | 20 |
 | `test_ranking_integration.py` | Ranking Bayesiano + TF-IDF end-to-end | 13 |
 | `test_nlp_pipeline.py` | Extração NLP com scispaCy | 1 |
 | `test_grpc_service.py` | RPCs ExtractContext e AssessSymptoms | 12 |
-| **Total** | | **67** ✅ |
+| **Total** | | **68** ✅ |
+
+---
+
+## 🏥 Simulação Clínica End-to-End
+
+Criamos um script que simula um caso real do início ao fim (Extração LLM ➡️ Diagnóstico):
+
+```bash
+python scripts/simulate_case.py
+```
+
+Este script testa:
+1. Extração de texto livre (português/inglês).
+2. Detecção de sintomas presentes e **negados**.
+3. Cálculo de probabilidades e similaridade TF-IDF.
 
 ---
 

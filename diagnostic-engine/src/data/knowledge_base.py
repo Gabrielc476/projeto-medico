@@ -98,6 +98,10 @@ class MedicalKnowledgeBase:
         """Return all diseases in the knowledge base."""
         return list(self._diseases.values())
 
+    def get_all_symptoms(self) -> List[Symptom]:
+        """Return all symptoms in the knowledge base."""
+        return list(self._symptoms.values())
+
     def get_links_for_disease(self, disease_id: str) -> List[DiseaseSymptomLink]:
         """Return all symptom links for a given disease."""
         return self._disease_links.get(disease_id, [])

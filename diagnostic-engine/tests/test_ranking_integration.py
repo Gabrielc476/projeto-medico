@@ -104,7 +104,7 @@ class TestBayesianRanking:
     ) -> None:
         """Every disease in the KB should appear in the ranking."""
         ranking = network.rank_diseases(["S001"], kb)
-        assert len(ranking) == 12
+        assert len(ranking) == 14
 
     def test_all_probabilities_valid(
         self, network: DiseaseDiagnosticNetwork, kb: MedicalKnowledgeBase
@@ -139,7 +139,7 @@ class TestTFIDFRanking:
         self, vectorizer: SymptomVectorizer, kb: MedicalKnowledgeBase
     ) -> None:
         """The vectorizer should have all 12 diseases after fitting from KB."""
-        assert len(vectorizer.disease_ids) == 12
+        assert len(vectorizer.disease_ids) == 14
 
     def test_respiratory_cuis_score_respiratory_diseases_higher(
         self, vectorizer: SymptomVectorizer

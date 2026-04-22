@@ -20,13 +20,13 @@ class TestKnowledgeBaseLoading:
     """Verify that all seed data loads and validates correctly."""
 
     def test_diseases_loaded(self, kb: MedicalKnowledgeBase) -> None:
-        assert kb.disease_count == 12
+        assert kb.disease_count == 14
 
     def test_symptoms_loaded(self, kb: MedicalKnowledgeBase) -> None:
-        assert kb.symptom_count == 30
+        assert kb.symptom_count == 31
 
     def test_links_loaded(self, kb: MedicalKnowledgeBase) -> None:
-        assert kb.link_count == 55
+        assert kb.link_count == 70
 
 
 # ---------------------------------------------------------------------------
@@ -48,7 +48,7 @@ class TestDiseaseLookups:
 
     def test_get_all_diseases(self, kb: MedicalKnowledgeBase) -> None:
         diseases = kb.get_all_diseases()
-        assert len(diseases) == 12
+        assert len(diseases) == 14
         ids = {d.disease_id for d in diseases}
         assert "D001" in ids
         assert "D012" in ids
@@ -126,7 +126,7 @@ class TestDiseaseProfiles:
 
     def test_profiles_generated(self, kb: MedicalKnowledgeBase) -> None:
         profiles = kb.get_disease_profiles()
-        assert len(profiles) == 12
+        assert len(profiles) == 14
         # Each disease should have a non-empty CUI list
         for disease_id, cuis in profiles.items():
             assert len(cuis) > 0, f"Disease {disease_id} has no CUI profile"

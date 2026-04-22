@@ -51,9 +51,9 @@ erDiagram
 
 | Arquivo | Quantidade | Exemplo |
 |---------|-----------|---------|
-| `diseases.json` | ==12 doenças== | Pneumonia, Gripe, IAM, ITU... |
-| `symptoms.json` | ==30 sintomas== | Tosse, Febre, Dispneia... |
-| `disease_symptom_links.json` | ==55 links== | Tosse↔Pneumonia (sens=0.80) |
+| `diseases.json` | ==14 doenças== | Faringite, Laringite, Pneumonia... |
+| `symptoms.json` | ==31 sintomas== | Tosse, Febre, Rouquidão... |
+| `disease_symptom_links.json` | ==70 links== | Rouquidão↔Laringite (sens=0.95) |
 
 ---
 
@@ -73,6 +73,8 @@ erDiagram
 | D010 | Infecção Urinária | 🟣 Genitourinária | 3% |
 | D011 | Anemia Ferropriva | 🔴 Hematológica | 5% |
 | D012 | Depressão Maior | 💜 Psiquiátrica | 7% |
+| D013 | Faringite Aguda | 🫁 Respiratória | 12% |
+| D014 | Laringite Aguda | 🫁 Respiratória | 3% |
 
 ---
 
