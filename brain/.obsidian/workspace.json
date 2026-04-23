@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "04-Base-de-Dados/03 — Implementação e Entidades.md",
+                "file": "00-Index.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "03 — Implementação e Entidades"
+              "title": "00-Index"
             }
           }
         ]
@@ -185,16 +185,21 @@
   },
   "active": "9debb57229a6a665",
   "lastOpenFiles": [
-    "04-Base-de-Dados/02 — Conceitos PostgreSQL.md",
-    "04-Base-de-Dados/01 — Conceitos Neo4j.md",
-    "03-Motor-Python/10 — Conexão Neo4j.md",
     "03-Motor-Python/09 — Docker e Infraestrutura.md",
-    "04-Base-de-Dados/03 — Implementação e Entidades.md",
-    "04-Base-de-Dados",
+    "03-Motor-Python/08 — Como Rodar e Testar.md",
+    "03-Motor-Python/07 — gRPC e Comunicação.md",
+    "03-Motor-Python/06 — NLP com scispaCy.md",
+    "03-Motor-Python/05 — TF-IDF e Espaço Vetorial.md",
+    "03-Motor-Python/04 — Matemática Bayesiana.md",
     "03-Motor-Python/03 — Base de Conhecimento.md",
     "03-Motor-Python/02 — Modelos de Dados (Pydantic).md",
     "03-Motor-Python/01 — Visão Geral da Arquitetura.md",
     "03-Motor-Python/00 — Mapa Geral.md",
+    "04-Base-de-Dados/03 — Implementação e Entidades.md",
+    "04-Base-de-Dados/02 — Conceitos PostgreSQL.md",
+    "04-Base-de-Dados/01 — Conceitos Neo4j.md",
+    "03-Motor-Python/10 — Conexão Neo4j.md",
+    "04-Base-de-Dados",
     "02-Algoritmos-e-IA/Redes-Bayesianas.md",
     "02-Algoritmos-e-IA/Fluxo-de-Triagem.md",
     "01-Arquitetura/Visao-Geral.md"

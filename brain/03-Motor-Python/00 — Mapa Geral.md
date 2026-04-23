@@ -76,8 +76,9 @@ O motor Python consome dados de grafos e interage indiretamente com dados transa
 ## 📊 Status do Projeto
 
 - [x] Algoritmos matemáticos (Bayesian + TF-IDF)
-- [x] Base de conhecimento (14 doenças, 31 sintomas)
-- [x] Modelos Pydantic com validação
+- [x] Base de conhecimento (Neo4j Graph - 26k+ doenças) ✅
+- [x] Modelos Pydantic com validação flexível
 - [x] NLP e Contextualização com LLM (Gemma 4 31B) ✅
-- [ ] Docker (Configuração de produção)
-- [ ] Neo4j / PostgreSQL
+- [x] Docker e Infraestrutura de Produção ✅
+- [x] Integração gRPC (Async Server) ✅
+- [x] Filtro de Grafo (Performance em Escala) ✅
