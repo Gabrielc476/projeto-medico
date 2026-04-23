@@ -4,12 +4,13 @@ tags:
   - diagnostic-engine
   - bayesian
   - matematica
+  - performance
 ---
 
 # 🧮 Matemática Bayesiana
 
 > [!abstract] Em uma frase
-> Usamos o **Teorema de Bayes** para atualizar a probabilidade de cada doença conforme cada sintoma é adicionado.
+> Usamos o **Teorema de Bayes** para atualizar a probabilidade de cada doença conforme cada sintoma é adicionado, agora otimizado para escala massiva.
 
 ---
 
@@ -38,27 +39,31 @@ tags:
 
 ---
 
-## 🔌 Noisy-OR
+## ⚡ Otimização de Performance (Grafo)
 
-Quando múltiplas doenças causam o mesmo sintoma:
+Com **26.000+ doenças**, calcular o Bayes para todas em cada request seria impossível.
 
-$$P(Y=1) = 1 - \prod_{i} (1 - p_i)$$
+> [!important] Estratégia de Filtragem
+> Antes de rodar a matemática, o motor pergunta ao Neo4j: *"Quais doenças têm pelo menos um destes sintomas?"*
+> Isso reduz o espaço de busca de **26.000** para **~50-100** candidatos relevantes em milissegundos.
 
-> [!example] Analogia: Alarme 🔥
-> 3 fontes (p=0.8, 0.6, 0.7):
-> $P(\text{não toca}) = 0.2 \times 0.4 \times 0.3 = 0.024$
-> $P(\text{toca}) = 97.6\%$
+```mermaid
+graph LR
+    S["Sintomas do Paciente"] --> G["Neo4j Filter"]
+    G --> D["Relevant Candidates (N < 100)"]
+    D --> B["Bayesian Inference"]
+    B --> R["Ranked Differential Diagnosis"]
+```
 
 ---
 
-## 📊 Tabela LR
+## 📊 Interpretando os Resultados
 
-| LR+ | Significado |
-|-----|-----------|
-| > 10 | ==Muito forte== |
-| 5-10 | Forte |
-| 2-5 | Moderado |
-| 1-2 | Fraco |
+| Valor | Significado | Ação Sugerida |
+|-----|-----------|---------------|
+| **Prob > 30%** | Alta Probabilidade | Investigar como hipótese principal |
+| **Prob 10-30%** | Moderada | Manter no diagnóstico diferencial |
+| **LR+ > 10** | Evidência Forte | Sintoma patognomônico ou altamente sugestivo |
 
 ---
 

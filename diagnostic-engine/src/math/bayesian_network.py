@@ -96,9 +96,18 @@ class DiseaseDiagnosticNetwork:
         patient_set = set(patient_symptom_ids)
         results: List[Tuple[str, float]] = []
 
-        for disease in knowledge_base.get_all_diseases():
+        # Optimization: Only evaluate diseases that share symptoms with the patient
+        relevant_ids = knowledge_base.get_relevant_disease_ids(patient_symptom_ids)
+        
+        # If no symptoms match, we could return all diseases at prior, but that's expensive.
+        # We'll just return the relevant ones.
+        for disease_id in relevant_ids:
+            disease = knowledge_base.get_disease(disease_id)
+            if not disease:
+                continue
+            
             prior = disease.prevalence
-            links = knowledge_base.get_links_for_disease(disease.disease_id)
+            links = knowledge_base.get_links_for_disease(disease_id)
 
             if not links:
                 results.append((disease.disease_id, prior))

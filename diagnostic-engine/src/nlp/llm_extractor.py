@@ -18,6 +18,11 @@ from pydantic import BaseModel, Field
 load_dotenv()
 
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 class SymptomExtraction(BaseModel):
     """Schema for a single symptom extraction."""
     cui: str = Field(description="UMLS CUI (e.g., C0015967)")
@@ -86,6 +91,7 @@ class LLMExtractor:
         """
 
         try:
+            logger.info(f"Sending prompt to LLM ({self.model_id}). Prompt length: {len(prompt)}")
             # Using the new google-genai SDK pattern
             response = self._client.models.generate_content(
                 model=self.model_id,
@@ -96,13 +102,13 @@ class LLMExtractor:
                 }
             )
             
-            # The SDK handles JSON parsing if response_schema is provided, 
-            # but we parse response.text to be safe if it returns a string.
             import json
             data = json.loads(response.text)
-            return ExtractionResponse(**data)
+            extraction = ExtractionResponse(**data)
+            logger.info(f"LLM successfully extracted {len(extraction.symptoms)} symptoms.")
+            return extraction
             
         except Exception as e:
-            print(f"Error calling LLM: {e}")
+            logger.error(f"FATAL: LLM Extraction failed: {e}", exc_info=True)
             # Return empty response on failure to allow fallback
             return ExtractionResponse(symptoms=[], context=ClinicalContext())

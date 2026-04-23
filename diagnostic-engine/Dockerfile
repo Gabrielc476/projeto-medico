@@ -14,8 +14,8 @@ COPY pyproject.toml .
 RUN pip install --upgrade pip
 RUN pip install .
 
-# Pré-download do modelo scispaCy (evita download no runtime)
-RUN python -m spacy download en_core_sci_sm
+# Pré-download do modelo scispaCy (necessário para o NER médico)
+RUN pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.4/en_core_sci_sm-0.5.4.tar.gz
 
 # ── STAGE 2: Runtime ──────────────────────────────────────────
 FROM python:3.11-slim

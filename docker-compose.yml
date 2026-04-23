@@ -6,6 +6,8 @@ services:
     container_name: diagnostic-engine
     ports:
       - "50051:50051"
+    environment:
+      - PYTHONPATH=.
     env_file:
       - ./diagnostic-engine/.env
     volumes:
@@ -17,10 +19,69 @@ services:
       --directory=./data 
       --pattern="*.py;*.json" 
       --recursive 
-      -- python src/main.py
+      -- python -m src.main
+    networks:
+      - medical-network
+
+  neo4j:
+    image: neo4j:latest
+    container_name: neo4j-medical
+    ports:
+      - "7474:7474" # Browser UI
+      - "7687:7687" # Bolt Protocol
+    environment:
+      - NEO4J_AUTH=neo4j/medical123 # Definição de senha inicial
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    networks:
+      - medical-network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - medical-network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - medical-network
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres-medical
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=medical123
+      - POSTGRES_DB=medical_ehr
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - medical-network
 
 networks:
   medical-network:
     driver: bridge
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
+  postgres_data:

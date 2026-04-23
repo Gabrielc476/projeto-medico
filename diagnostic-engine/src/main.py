@@ -23,14 +23,14 @@ import grpc
 # Ensure generated stubs are importable (they use flat ``import diagnostic_pb2``)
 # ---------------------------------------------------------------------------
 _GENERATED_DIR = str(
-    Path(__file__).resolve().parent / "grpc" / "generated"
+    Path(__file__).resolve().parent / "api_grpc" / "generated"
 )
 if _GENERATED_DIR not in sys.path:
     sys.path.insert(0, _GENERATED_DIR)
 
 import diagnostic_pb2_grpc  # noqa: E402
 
-from src.grpc.diagnostic_service import DiagnosticServicer  # noqa: E402
+from src.api_grpc.diagnostic_service import DiagnosticServicer  # noqa: E402
 
 logger = logging.getLogger("diagnostic-engine")
 

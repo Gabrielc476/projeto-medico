@@ -48,6 +48,13 @@ Siga esta ordem de leitura 👇
 | 7 | [[07 — gRPC e Comunicação]] | Como o NestJS conversa com o Python |
 | 8 | [[08 — Como Rodar e Testar]] | Comandos práticos |
 | 9 | [[09 — Docker e Infraestrutura]] | Containers e Hot Reload |
+| 10 | [[10 — Conexão Neo4j]] | Integração com Persistência |
+
+---
+
+## 💾 Persistência e Dados
+O motor Python consome dados de grafos e interage indiretamente com dados transacionais:
+*   Consulte a pasta **[[04-Base-de-Dados/01 — Conceitos Neo4j|Base de Dados]]** para entender a arquitetura Neo4j + PostgreSQL.
 
 ---
 

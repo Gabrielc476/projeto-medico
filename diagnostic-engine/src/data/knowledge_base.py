@@ -37,6 +37,8 @@ class KnowledgeBaseProtocol(Protocol):
 
     def get_all_diseases(self) -> List[Disease]: ...
 
+    def get_all_symptoms(self) -> List[Symptom]: ...
+
     def get_links_for_disease(self, disease_id: str) -> List[DiseaseSymptomLink]: ...
 
     def get_link(
@@ -44,6 +46,8 @@ class KnowledgeBaseProtocol(Protocol):
     ) -> Optional[DiseaseSymptomLink]: ...
 
     def get_disease_profiles(self) -> Dict[str, List[str]]: ...
+
+    def get_relevant_disease_ids(self, symptom_ids: List[str]) -> List[str]: ...
 
 
 # ---------------------------------------------------------------------------
@@ -128,6 +132,17 @@ class MedicalKnowledgeBase:
                     cuis.append(symptom.cui)
             profiles[disease_id] = cuis
         return profiles
+
+    def get_relevant_disease_ids(self, symptom_ids: List[str]) -> List[str]:
+        """Return IDs of diseases that have at least one link to the provided symptoms."""
+        relevant = set()
+        symptom_set = set(symptom_ids)
+        for disease_id, links in self._disease_links.items():
+            for link in links:
+                if link.symptom_id in symptom_set:
+                    relevant.add(disease_id)
+                    break
+        return list(relevant)
 
     def resolve_cuis_to_symptom_ids(self, cuis: Sequence[str]) -> List[str]:
         """Convert a list of CUIs to their corresponding symptom IDs.

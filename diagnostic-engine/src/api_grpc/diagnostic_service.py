@@ -33,7 +33,8 @@ if _GENERATED_DIR not in sys.path:
 import diagnostic_pb2  # noqa: E402
 import diagnostic_pb2_grpc  # noqa: E402
 
-from src.data.knowledge_base import MedicalKnowledgeBase
+from src.data.knowledge_base import KnowledgeBaseProtocol
+from src.data.neo4j_knowledge_base import Neo4jKnowledgeBase
 from src.math.bayesian_network import DiseaseDiagnosticNetwork
 from src.math.vector_space import SymptomVectorizer
 from src.nlp.extractor import ClinicalExtractor
@@ -44,12 +45,13 @@ logger = logging.getLogger(__name__)
 class DiagnosticServicer(diagnostic_pb2_grpc.DiagnosticServiceServicer):
     """Production implementation of the DiagnosticService gRPC contract.
 
-    On initialization it eagerly loads the MedicalKnowledgeBase and fits
-    the TF-IDF vectorizer so that first-request latency is minimized.
+    On initialization it eagerly connects to Neo4j and fits the 
+    TF-IDF vectorizer so that first-request latency is minimized.
     """
 
-    def __init__(self, knowledge_base: MedicalKnowledgeBase | None = None) -> None:
-        self._kb = knowledge_base or MedicalKnowledgeBase()
+    def __init__(self, knowledge_base: KnowledgeBaseProtocol | None = None) -> None:
+        # Use Neo4j by default as the JSON implementation is discontinued
+        self._kb = knowledge_base or Neo4jKnowledgeBase()
         self._extractor = ClinicalExtractor()
         self._network = DiseaseDiagnosticNetwork()
         self._vectorizer = SymptomVectorizer()
@@ -77,9 +79,18 @@ class DiagnosticServicer(diagnostic_pb2_grpc.DiagnosticServiceServicer):
         Input:  ``ContextExtractionRequest { free_text: str }``
         Output: ``ContextExtractionResponse { features: [ExtractedFeature] }``
         """
-        logger.info("ExtractContext called — text length: %d", len(request.free_text))
+        # Pass a subset of known symptoms to avoid prompt overflow (max 100)
+        # In production, we might use a vector search to find relevant hints first
+        all_symptoms = self._kb.get_all_symptoms()
+        hints = []
+        if len(all_symptoms) <= 100:
+            hints = [{"cui": s.cui, "name": s.name} for s in all_symptoms]
+        else:
+            # For now, if we have too many, we let the LLM use its internal knowledge
+            # or we could pass the most common symptoms.
+            hints = [{"cui": s.cui, "name": s.name} for s in all_symptoms[:100]]
 
-        raw_features = self._extractor.extract_features(request.free_text)
+        raw_features = self._extractor.extract_features(request.free_text, hints)
 
         pb_features = []
         for feat in raw_features:
@@ -112,19 +123,26 @@ class DiagnosticServicer(diagnostic_pb2_grpc.DiagnosticServiceServicer):
         3. Run TF-IDF cosine similarity scoring.
         4. Merge both scores into ``RankedDisease`` messages.
         """
-        # 1. Collect CUIs from the request
+        # 1. Collect CUIs from the request (Symptoms + Contextual Factors)
         patient_cuis = [s.cui for s in request.symptoms if s.is_present]
-        logger.info("AssessSymptoms called — %d symptoms received", len(patient_cuis))
+        context_cuis = [c.cui for c in request.contextual_factors if c.is_present]
+        
+        all_cuis = list(set(patient_cuis + context_cuis))
+        
+        logger.info(
+            "AssessSymptoms called — %d symptoms, %d context factors received", 
+            len(patient_cuis), len(context_cuis)
+        )
 
         # 2. Resolve CUIs → symptom IDs
-        symptom_ids = self._kb.resolve_cuis_to_symptom_ids(patient_cuis)
+        symptom_ids = self._kb.resolve_cuis_to_symptom_ids(all_cuis)
 
         # 3. Bayesian ranking
         bayesian_ranking = self._network.rank_diseases(symptom_ids, self._kb)
         bayesian_map = {did: prob for did, prob in bayesian_ranking}
 
         # 4. TF-IDF ranking
-        tfidf_scores = self._vectorizer.score_diseases(patient_cuis)
+        tfidf_scores = self._vectorizer.score_diseases(all_cuis)
 
         # 5. Build response
         ranked_diseases = []

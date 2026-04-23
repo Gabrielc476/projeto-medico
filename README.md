@@ -10,7 +10,7 @@ Um ecossistema avançado de triagem e rankeamento de sintomas médicos. O sistem
 - **Máquina de Estados de Triagem:** Questionários dinâmicos gerenciados rigidamente por `XState` para evitar fluxos incorretos.
 - **Painel Clínico de Alta Performance:** Dashboard médico para revisão de laudos e auditoria com Next.js 15, Shadcn UI e renderização avançada com Recharts e TanStack Table.
 - **Comunicação Híbrida e Alta Disponibilidade:** Orquestração de microserviços com NestJS utilizando gRPC para cálculos instantâneos e RabbitMQ para processamento em background (CQRS).
-- **Persistência Poliglota:** PostgreSQL como fonte da verdade transacional (ACID/EHR) perfeitamente sincronizado com um Grafo de Conhecimento em Neo4j via Apache Kafka (CDC).
+- **Persistência Poliglota:** PostgreSQL como fonte da verdade transacional (ACID/EHR) perfeitamente sincronizado com um **Grafo de Conhecimento em Neo4j** (26.000+ doenças) via Apache Kafka (CDC).
 - **Segurança de Nível Hospitalar (Zero Trust):** Tunelamento mTLS entre serviços (gRPC), logs de auditoria imutáveis e conformidade estrutural com LGPD/HIPAA.
 
 ---
@@ -65,7 +65,7 @@ O sistema foi arquitetado para suportar escalabilidade massiva sem perder a exat
 ### 3. Persistência e Grafos de Conhecimento
 1. Interações estruturais críticas, dados de faturamento e auditoria são persistidos no **PostgreSQL** (Garantia ACID).
 2. O **Debezium** escuta o WAL (Write-Ahead Logging) do banco e envia as transações pelo **Apache Kafka**.
-3. Um conector (Sink) absorve os eventos e injeta as relações e os sub-grafos instantaneamente no **Neo4j** para análises topológicas de doenças e tratamentos de altíssima performance.
+3. Um conector (Sink) absorve os eventos e injeta as relações e os sub-grafos instantaneamente no **Neo4j** para análises topológicas de doenças e tratamentos de altíssima performance. O motor utiliza travessias de 1-hop para filtrar candidatos bayesianos em tempo real.
 
 ---
 
@@ -154,9 +154,9 @@ A plataforma foi desenhada seguindo o princípio **Security by Design** (LGPD / 
 | Módulo | Status | Testes |
 |--------|--------|--------|
 | 🐍 Motor Python — Algoritmos (Bayes + TF-IDF) | ✅ Completo | 68/68 |
-| 🐍 Motor Python — gRPC Server | ✅ Completo | 12/12 |
-| 🐍 Motor Python — NLP (Gemma 4 31B) | ✅ Completo | 2/2 |
-| 🐳 Docker / Infra | ✅ Pronto (Hot Reload) | — |
+| 🐍 Motor Python — gRPC Server (Neo4j Sync) | ✅ Completo | 14/14 |
+| 🐍 Motor Python — NLP (Gemma 4 + scispaCy) | ✅ Completo | 4/4 |
+| 🐳 Docker / Infra (Neo4j + Postgres) | ✅ Pronto | — |
 | 🔀 NestJS Gateway | 🔲 Não iniciado | — |
 | 📱 React Native App | 🔲 Não iniciado | — |
 | 🖥️ Next.js Admin | 🔲 Não iniciado | — |

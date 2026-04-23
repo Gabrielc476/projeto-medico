@@ -15,7 +15,12 @@ dependencies = [
     "scispacy>=0.5.3",
     "pydantic>=2.6.4",
     "google-genai>=0.1.0",
-    "python-dotenv>=1.0.1"
+    "python-dotenv>=1.0.1",
+    "numpy<2.0.0",
+    "watchdog>=4.0.0",
+    "neo4j>=5.18.0",
+    "confluent-kafka>=2.3.0",
+    "requests>=2.31.0"
 ]
 
 [project.optional-dependencies]
@@ -23,8 +28,7 @@ dev = [
     "pytest>=8.1.1",
     "pytest-cov>=4.1.0",
     "ruff>=0.3.4",
-    "mypy>=1.9.0",
-    "watchdog>=4.0.0"
+    "mypy>=1.9.0"
 ]
 
 [tool.pyright]

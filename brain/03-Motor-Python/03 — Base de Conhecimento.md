@@ -3,116 +3,98 @@ title: Base de Conhecimento
 tags:
   - diagnostic-engine
   - knowledge-base
-  - dados
+  - neo4j
+  - graph
 ---
 
-# 📚 Base de Conhecimento
+# 📚 Base de Conhecimento (Grafo de Conhecimento)
 
 > [!abstract] Em uma frase
-> A base de conhecimento são **3 arquivos JSON** que contêm todas as doenças, sintomas, e a relação entre eles.
+> A base de conhecimento evoluiu de arquivos JSON para um **Grafo de Conhecimento no Neo4j**, integrando UMLS, HSDN e MeSH em uma estrutura de altíssima performance.
 
 ---
 
-## 🗄️ Os 3 Arquivos
+## 🕸️ Estrutura do Grafo (LPG)
 
 ```mermaid
 erDiagram
-    DISEASE ||--o{ LINK : "tem sintomas"
-    SYMPTOM ||--o{ LINK : "aparece em doenças"
+    DISEASE ||--o{ LINK : "HAS_SYMPTOM"
+    SYMPTOM ||--o{ LINK : "FEATURE_OF"
 
     DISEASE {
         string disease_id PK
         string name
         string icd10_code
         float prevalence
-        string category
+        string mesh_id
     }
 
     SYMPTOM {
         string symptom_id PK
         string cui UK
         string name
-        string body_region
-        bool is_constitutional
     }
 
     LINK {
-        string disease_id FK
-        string symptom_id FK
         float sensitivity
         float specificity
         float link_probability
+        string source
     }
 ```
 
 ---
 
-## 📊 Números Atuais
+## 📊 Números de Produção
 
-| Arquivo | Quantidade | Exemplo |
+| Entidade | Quantidade | Fonte |
 |---------|-----------|---------|
-| `diseases.json` | ==14 doenças== | Faringite, Laringite, Pneumonia... |
-| `symptoms.json` | ==31 sintomas== | Tosse, Febre, Rouquidão... |
-| `disease_symptom_links.json` | ==70 links== | Rouquidão↔Laringite (sens=0.95) |
+| **Doenças** | ==26.380 nodes== | HSDN, MeSH, WikiData |
+| **Sintomas** | ==347 nodes== | UMLS (CUIs Normalizados) |
+| **Relacionamentos** | ==10.535 links== | PubMed Mining, SymMap |
 
 ---
 
-## 🏥 Doenças Incluídas
+## 🏥 Exploração de Dados (Neo4j)
 
-| ID | Doença | Categoria | Prevalência |
-|----|--------|----------|-------------|
-| D001 | Pneumonia Comunitária | 🫁 Respiratória | 2% |
-| D002 | Gripe (Influenza) | 🫁 Respiratória | 8% |
-| D003 | Bronquite Aguda | 🫁 Respiratória | 5% |
-| D004 | Crise de Asma | 🫁 Respiratória | 4% |
-| D005 | Infarto (IAM) | ❤️ Cardiovascular | 0.5% |
-| D006 | Refluxo (DRGE) | 🟡 GI | 15% |
-| D007 | Gastroenterite | 🟡 GI | 6% |
-| D008 | Cefaleia Tensional | 🧠 Neurológica | 30% |
-| D009 | Enxaqueca | 🧠 Neurológica | 12% |
-| D010 | Infecção Urinária | 🟣 Genitourinária | 3% |
-| D011 | Anemia Ferropriva | 🔴 Hematológica | 5% |
-| D012 | Depressão Maior | 💜 Psiquiátrica | 7% |
-| D013 | Faringite Aguda | 🫁 Respiratória | 12% |
-| D014 | Laringite Aguda | 🫁 Respiratória | 3% |
+> [!tip] Query Útil (Cypher)
+> Para ver os sintomas de uma doença específica:
+> ```cypher
+> MATCH (d:Disease {name: "Acute Pharyngitis"})-[r:HAS_SYMPTOM]->(s:Symptom)
+> RETURN s.name, r.link_probability ORDER BY r.link_probability DESC
+> ```
 
 ---
 
 ## 🔧 Como a Knowledge Base Funciona
 
-📄 Arquivo: `src/data/knowledge_base.py`
+📄 Arquivo: `src/data/neo4j_knowledge_base.py`
 
-> [!tip] Pense como um bibliotecário 📖
-> Ele carrega todos os livros (JSONs) e cria **índices** para encontrar qualquer informação em O(1).
+> [!important] Abstração com Protocolos
+> O motor não sabe que o banco é Neo4j. Ele usa o `KnowledgeBaseProtocol`. Isso permitiu a migração sem quebrar a matemática!
 
 ```mermaid
 graph TD
-    A["diseases.json"] --> L["MedicalKnowledgeBase"]
-    B["symptoms.json"] --> L
-    C["links.json"] --> L
-    L --> D["get_disease('D001')"]
-    L --> E["get_symptom_by_cui('C0015967')"]
-    L --> F["get_links_for_disease('D001')"]
-    L --> G["get_disease_profiles()"]
+    A["Neo4j Database"] --> L["Neo4jKnowledgeBase"]
+    L --> D["get_disease(id)"]
+    L --> E["get_relevant_disease_ids(symptom_ids)"]
+    L --> F["get_links_for_disease(id)"]
+    L --> G["get_all_symptoms()"]
 ```
 
-### Métodos Principais
+### Métodos de Alta Performance
 
-| Método | O que faz | Quem usa |
+| Método | O que faz | Otimização |
 |--------|----------|---------|
-| `get_disease(id)` | Busca doença por ID | gRPC Service |
-| `get_symptom_by_cui(cui)` | Busca sintoma pelo CUI | Pipeline NLP |
-| `get_links_for_disease(id)` | Todos os links de uma doença | Motor Bayesiano |
-| `get_disease_profiles()` | Mapa doença→CUIs | Motor TF-IDF |
-| `resolve_cuis_to_symptom_ids(cuis)` | Converte CUIs em IDs | gRPC Service |
+| `get_relevant_disease_ids` | Filtra doenças candidatas | Usa travessia de grafo (1-hop) |
+| `resolve_cuis_to_symptom_ids` | Mapeia CUIs para IDs | Cache interno no driver |
+| `get_all_symptoms` | Lista sintomas para o NLP | Filtragem de CUIs malformados |
 
 ---
 
-## 🔮 Futuro: Neo4j + PostgreSQL
+## 🔗 Integração de Dados
 
-> [!info] Por que JSON agora?
-> Mais simples de iterar durante o desenvolvimento com TDD.
-> A interface `KnowledgeBaseProtocol` já está preparada para trocar por Neo4j/PostgreSQL sem mudar nenhum código do motor.
+A base é alimentada pelo script `scripts/enrich_knowledge_base.py`, que cruza as relações do dataset HSDN com os identificadores do MeSH, garantindo que o motor tenha uma visão global da medicina moderna.
 
 ---
 
