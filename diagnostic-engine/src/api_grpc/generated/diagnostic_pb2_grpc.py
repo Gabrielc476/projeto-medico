@@ -39,6 +39,11 @@ class DiagnosticServiceStub(object):
                 request_serializer=diagnostic__pb2.ContextExtractionRequest.SerializeToString,
                 response_deserializer=diagnostic__pb2.ContextExtractionResponse.FromString,
                 _registered_method=True)
+        self.ExtractExam = channel.unary_unary(
+                '/diagnostic.DiagnosticService/ExtractExam',
+                request_serializer=diagnostic__pb2.ExamExtractionRequest.SerializeToString,
+                response_deserializer=diagnostic__pb2.ContextExtractionResponse.FromString,
+                _registered_method=True)
         self.AssessSymptoms = channel.unary_unary(
                 '/diagnostic.DiagnosticService/AssessSymptoms',
                 request_serializer=diagnostic__pb2.SymptomAssessmentRequest.SerializeToString,
@@ -50,6 +55,12 @@ class DiagnosticServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def ExtractContext(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ExtractExam(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -67,6 +78,11 @@ def add_DiagnosticServiceServicer_to_server(servicer, server):
             'ExtractContext': grpc.unary_unary_rpc_method_handler(
                     servicer.ExtractContext,
                     request_deserializer=diagnostic__pb2.ContextExtractionRequest.FromString,
+                    response_serializer=diagnostic__pb2.ContextExtractionResponse.SerializeToString,
+            ),
+            'ExtractExam': grpc.unary_unary_rpc_method_handler(
+                    servicer.ExtractExam,
+                    request_deserializer=diagnostic__pb2.ExamExtractionRequest.FromString,
                     response_serializer=diagnostic__pb2.ContextExtractionResponse.SerializeToString,
             ),
             'AssessSymptoms': grpc.unary_unary_rpc_method_handler(
@@ -101,6 +117,33 @@ class DiagnosticService(object):
             target,
             '/diagnostic.DiagnosticService/ExtractContext',
             diagnostic__pb2.ContextExtractionRequest.SerializeToString,
+            diagnostic__pb2.ContextExtractionResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ExtractExam(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/diagnostic.DiagnosticService/ExtractExam',
+            diagnostic__pb2.ExamExtractionRequest.SerializeToString,
             diagnostic__pb2.ContextExtractionResponse.FromString,
             options,
             channel_credentials,

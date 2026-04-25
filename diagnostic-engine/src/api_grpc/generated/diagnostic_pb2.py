@@ -24,25 +24,27 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10\x64iagnostic.proto\x12\ndiagnostic\"-\n\x18\x43ontextExtractionRequest\x12\x11\n\tfree_text\x18\x01 \x01(\t\"A\n\x10\x45xtractedFeature\x12\x0b\n\x03\x63ui\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x12\n\nis_present\x18\x03 \x01(\x08\"K\n\x19\x43ontextExtractionResponse\x12.\n\x08\x66\x65\x61tures\x18\x01 \x03(\x0b\x32\x1c.diagnostic.ExtractedFeature\"\x84\x01\n\x18SymptomAssessmentRequest\x12.\n\x08symptoms\x18\x01 \x03(\x0b\x32\x1c.diagnostic.ExtractedFeature\x12\x38\n\x12\x63ontextual_factors\x18\x02 \x03(\x0b\x32\x1c.diagnostic.ExtractedFeature\"\xb4\x01\n\rRankedDisease\x12\x12\n\ndisease_id\x18\x01 \x01(\t\x12\x14\n\x0c\x64isease_name\x18\x02 \x01(\t\x12\x1d\n\x15posterior_probability\x18\x03 \x01(\x02\x12!\n\x19likelihood_ratio_positive\x18\x04 \x01(\x02\x12!\n\x19likelihood_ratio_negative\x18\x05 \x01(\x02\x12\x14\n\x0ctf_idf_score\x18\x06 \x01(\x02\"O\n\x19SymptomAssessmentResponse\x12\x32\n\x0franked_diseases\x18\x01 \x03(\x0b\x32\x19.diagnostic.RankedDisease2\xd5\x01\n\x11\x44iagnosticService\x12_\n\x0e\x45xtractContext\x12$.diagnostic.ContextExtractionRequest\x1a%.diagnostic.ContextExtractionResponse\"\x00\x12_\n\x0e\x41ssessSymptoms\x12$.diagnostic.SymptomAssessmentRequest\x1a%.diagnostic.SymptomAssessmentResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10\x64iagnostic.proto\x12\ndiagnostic\",\n\x15\x45xamExtractionRequest\x12\x13\n\x0bpdf_content\x18\x01 \x01(\x0c\"-\n\x18\x43ontextExtractionRequest\x12\x11\n\tfree_text\x18\x01 \x01(\t\"A\n\x10\x45xtractedFeature\x12\x0b\n\x03\x63ui\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x12\n\nis_present\x18\x03 \x01(\x08\"K\n\x19\x43ontextExtractionResponse\x12.\n\x08\x66\x65\x61tures\x18\x01 \x03(\x0b\x32\x1c.diagnostic.ExtractedFeature\"\x84\x01\n\x18SymptomAssessmentRequest\x12.\n\x08symptoms\x18\x01 \x03(\x0b\x32\x1c.diagnostic.ExtractedFeature\x12\x38\n\x12\x63ontextual_factors\x18\x02 \x03(\x0b\x32\x1c.diagnostic.ExtractedFeature\"\xb4\x01\n\rRankedDisease\x12\x12\n\ndisease_id\x18\x01 \x01(\t\x12\x14\n\x0c\x64isease_name\x18\x02 \x01(\t\x12\x1d\n\x15posterior_probability\x18\x03 \x01(\x02\x12!\n\x19likelihood_ratio_positive\x18\x04 \x01(\x02\x12!\n\x19likelihood_ratio_negative\x18\x05 \x01(\x02\x12\x14\n\x0ctf_idf_score\x18\x06 \x01(\x02\"O\n\x19SymptomAssessmentResponse\x12\x32\n\x0franked_diseases\x18\x01 \x03(\x0b\x32\x19.diagnostic.RankedDisease2\xb0\x02\n\x11\x44iagnosticService\x12_\n\x0e\x45xtractContext\x12$.diagnostic.ContextExtractionRequest\x1a%.diagnostic.ContextExtractionResponse\"\x00\x12Y\n\x0b\x45xtractExam\x12!.diagnostic.ExamExtractionRequest\x1a%.diagnostic.ContextExtractionResponse\"\x00\x12_\n\x0e\x41ssessSymptoms\x12$.diagnostic.SymptomAssessmentRequest\x1a%.diagnostic.SymptomAssessmentResponse\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'diagnostic_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_CONTEXTEXTRACTIONREQUEST']._serialized_start=32
-  _globals['_CONTEXTEXTRACTIONREQUEST']._serialized_end=77
-  _globals['_EXTRACTEDFEATURE']._serialized_start=79
-  _globals['_EXTRACTEDFEATURE']._serialized_end=144
-  _globals['_CONTEXTEXTRACTIONRESPONSE']._serialized_start=146
-  _globals['_CONTEXTEXTRACTIONRESPONSE']._serialized_end=221
-  _globals['_SYMPTOMASSESSMENTREQUEST']._serialized_start=224
-  _globals['_SYMPTOMASSESSMENTREQUEST']._serialized_end=356
-  _globals['_RANKEDDISEASE']._serialized_start=359
-  _globals['_RANKEDDISEASE']._serialized_end=539
-  _globals['_SYMPTOMASSESSMENTRESPONSE']._serialized_start=541
-  _globals['_SYMPTOMASSESSMENTRESPONSE']._serialized_end=620
-  _globals['_DIAGNOSTICSERVICE']._serialized_start=623
-  _globals['_DIAGNOSTICSERVICE']._serialized_end=836
+  _globals['_EXAMEXTRACTIONREQUEST']._serialized_start=32
+  _globals['_EXAMEXTRACTIONREQUEST']._serialized_end=76
+  _globals['_CONTEXTEXTRACTIONREQUEST']._serialized_start=78
+  _globals['_CONTEXTEXTRACTIONREQUEST']._serialized_end=123
+  _globals['_EXTRACTEDFEATURE']._serialized_start=125
+  _globals['_EXTRACTEDFEATURE']._serialized_end=190
+  _globals['_CONTEXTEXTRACTIONRESPONSE']._serialized_start=192
+  _globals['_CONTEXTEXTRACTIONRESPONSE']._serialized_end=267
+  _globals['_SYMPTOMASSESSMENTREQUEST']._serialized_start=270
+  _globals['_SYMPTOMASSESSMENTREQUEST']._serialized_end=402
+  _globals['_RANKEDDISEASE']._serialized_start=405
+  _globals['_RANKEDDISEASE']._serialized_end=585
+  _globals['_SYMPTOMASSESSMENTRESPONSE']._serialized_start=587
+  _globals['_SYMPTOMASSESSMENTRESPONSE']._serialized_end=666
+  _globals['_DIAGNOSTICSERVICE']._serialized_start=669
+  _globals['_DIAGNOSTICSERVICE']._serialized_end=973
 # @@protoc_insertion_point(module_scope)

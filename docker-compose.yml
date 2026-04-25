@@ -14,12 +14,14 @@ services:
       - ./diagnostic-engine:/app
     # Hot Reload: Monitora mudanças em .py e .json e reinicia o servidor
     command: >
+      sh -c "pip install -e '.[dev]' &&
+      python scripts/compile_proto.py && 
       watchmedo auto-restart 
       --directory=./src 
       --directory=./data 
-      --pattern="*.py;*.json" 
+      --pattern='*.py;*.json' 
       --recursive 
-      -- python -m src.main
+      -- python -m src.main"
     networks:
       - medical-network
 

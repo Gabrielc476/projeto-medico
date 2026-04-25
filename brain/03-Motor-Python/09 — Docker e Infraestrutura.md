@@ -41,11 +41,16 @@ Para acelerar o desenvolvimento, o `docker-compose.yml` mapeia a pasta local par
 ```yaml
 volumes:
   - ./diagnostic-engine:/app
-command: watchmedo auto-restart --directory=./src ...
+command: >
+  sh -c "pip install -e '.[dev]' &&
+  python scripts/compile_proto.py && 
+  watchmedo auto-restart ..."
 ```
 
 > [!tip] Como funciona?
-> Sempre que você salva um arquivo `.py` ou `.json` no seu editor, o container detecta a mudança e reinicia o servidor gRPC automaticamente em menos de 1 segundo.
+> 1. No boot, o container instala dependências automaticamente (`pip install`). Assim, se você adicionar uma biblioteca nova (`pyproject.toml`), não precisa fazer o `docker-compose build` de novo. Basta reiniciar!
+> 2. O `compile_proto.py` recria os stubs gRPC internamente, contornando sobreposições do volume.
+> 3. Sempre que você salva um arquivo `.py` ou `.json` no seu editor, o `watchmedo` detecta a mudança e reinicia o servidor gRPC automaticamente em menos de 1 segundo.
 
 ---
 

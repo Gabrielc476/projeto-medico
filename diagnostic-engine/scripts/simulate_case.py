@@ -30,6 +30,8 @@ from src.nlp.extractor import ClinicalExtractor
 
 
 def main() -> None:
+    project_root = Path(__file__).resolve().parent.parent
+
     # ── Input do Paciente ────────────────────────────────────────
     clinical_text = (
         "estou com dor de garganta e rouquidão, faz 2 dias, "
@@ -70,6 +72,36 @@ def main() -> None:
         print("   ⚠️  Nenhum sintoma extraído do texto.")
 
     patient_cuis = [f["cui"] for f in extracted_features if f["is_present"]]
+    print()
+    
+    # ── 1.5. Extração de Exame via LLM (Gemma 4 31B) ────────────────
+    print("─" * 70)
+    print("🧪 ETAPA 1.5: Extração de Exame PDF (LLM)")
+    print("─" * 70)
+    
+    exam_pdf_path = project_root / "dummy_exam.pdf"
+    if exam_pdf_path.exists():
+        from src.nlp.exam_extractor import ExamLLMExtractor
+        exam_extractor = ExamLLMExtractor()
+        
+        with open(exam_pdf_path, "rb") as f:
+            pdf_bytes = f.read()
+            
+        print(f"📝 Lendo PDF: {exam_pdf_path.name}")
+        exam_features = exam_extractor.extract_from_exam(pdf_bytes, known_symptoms)
+        
+        for sym in exam_features.symptoms:
+            status = "✅ ANORMAL" if sym.is_present else "❌ NORMAL"
+            conf = sym.confidence
+            print(f"   {status:11} | {sym.name[:20]:20} | CUI: {sym.cui} | conf: {conf:.2f}")
+            if sym.is_present:
+                patient_cuis.append(sym.cui)
+                
+        if not exam_features.symptoms:
+            print("   ⚠️  Nenhuma anormalidade extraída do exame.")
+    else:
+        print(f"   ⚠️  Arquivo {exam_pdf_path.name} não encontrado. Pulando extração de PDF.")
+        
     symptom_ids = kb.resolve_cuis_to_symptom_ids(patient_cuis)
     print()
 

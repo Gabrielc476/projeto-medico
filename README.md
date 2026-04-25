@@ -57,7 +57,10 @@ O sistema foi arquitetado para suportar escalabilidade massiva sem perder a exat
 
 ### 2. Inferência Bayesiana e LLMs (Microserviço Python)
 1. O NestJS serializa os sintomas e contexto usando **Protobuf** e chama o serviço Python via **gRPC**.
-2. Um **LLM** especializado atua como extrator, transformando a "Contextualização" de texto livre em entidades estruturadas (fatores de risco) para calcular "Probabilidades a Priori" (Priors) mais refinadas.
+2. Um **LLM** especializado atua como extrator multimodal:
+   - Transforma a "Contextualização" de texto livre em entidades estruturadas (fatores de risco).
+   - Extrai **exames laboratoriais de PDFs** em formato tabular ou texto usando `pdfplumber`, isolando marcadores em "estado de anormalidade".
+   - Ambos fornecem "Probabilidades a Priori" (Priors) mais refinadas ao motor.
 3. No Python, o **scispaCy** valida e normaliza os termos de sintomas contra a base UMLS.
 4. O algoritmo calcula a penalidade *TF-IDF* e propaga as evidências combinadas no Grafo Direcionado (DAG) da **Rede Bayesiana**.
 5. Vetores de probabilidade pós-teste e as *Razões de Verossimilhança* são devolvidos em milissegundos para o gateway.
@@ -155,7 +158,7 @@ A plataforma foi desenhada seguindo o princípio **Security by Design** (LGPD / 
 |--------|--------|--------|
 | 🐍 Motor Python — Algoritmos (Bayes + TF-IDF) | ✅ Completo | 68/68 |
 | 🐍 Motor Python — gRPC Server (Neo4j Sync) | ✅ Completo | 14/14 |
-| 🐍 Motor Python — NLP (Gemma 4 + scispaCy) | ✅ Completo | 4/4 |
+| 🐍 Motor Python — NLP e Extração de PDF (Gemma 4 + scispaCy) | ✅ Completo | 4/4 |
 | 🐳 Docker / Infra (Neo4j + Postgres) | ✅ Pronto | — |
 | 🔀 NestJS Gateway | 🔲 Não iniciado | — |
 | 📱 React Native App | 🔲 Não iniciado | — |

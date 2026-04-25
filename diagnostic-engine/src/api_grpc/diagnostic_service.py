@@ -105,6 +105,51 @@ class DiagnosticServicer(diagnostic_pb2_grpc.DiagnosticServiceServicer):
         return diagnostic_pb2.ContextExtractionResponse(features=pb_features)
 
     # -----------------------------------------------------------------
+    # RPC: ExtractExam
+    # -----------------------------------------------------------------
+    def ExtractExam(
+        self,
+        request: Any,
+        context: grpc.ServicerContext,
+    ) -> Any:
+        """Extract abnormal findings from an exam PDF using pdfplumber and LLM.
+
+        Input:  ``ExamExtractionRequest { pdf_content: bytes }``
+        Output: ``ContextExtractionResponse { features: [ExtractedFeature] }``
+        """
+        # Load ExamLLMExtractor locally to avoid circular/heavy imports at startup
+        from src.nlp.exam_extractor import ExamLLMExtractor
+        
+        # Initialize extractor
+        exam_extractor = ExamLLMExtractor()
+        
+        # Get hints from KB (in production use vector search)
+        all_symptoms = self._kb.get_all_symptoms()
+        hints = [{"cui": s.cui, "name": s.name} for s in all_symptoms[:100]]
+
+        # Call extraction
+        try:
+            extraction = exam_extractor.extract_from_exam(request.pdf_content, hints)
+        except Exception as e:
+            logger.error(f"ExtractExam failed: {e}")
+            context.set_code(grpc.StatusCode.INTERNAL)
+            context.set_details(str(e))
+            return diagnostic_pb2.ContextExtractionResponse(features=[])
+
+        # Map to protobuf
+        pb_features = []
+        for sym in extraction.symptoms:
+            pb_features.append(
+                diagnostic_pb2.ExtractedFeature(
+                    cui=sym.cui,
+                    name=sym.name,
+                    is_present=sym.is_present,
+                )
+            )
+
+        return diagnostic_pb2.ContextExtractionResponse(features=pb_features)
+
+    # -----------------------------------------------------------------
     # RPC: AssessSymptoms
     # -----------------------------------------------------------------
     def AssessSymptoms(

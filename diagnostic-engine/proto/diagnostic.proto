@@ -4,7 +4,12 @@ package diagnostic;
 
 service DiagnosticService {
   rpc ExtractContext(ContextExtractionRequest) returns (ContextExtractionResponse) {}
+  rpc ExtractExam(ExamExtractionRequest) returns (ContextExtractionResponse) {}
   rpc AssessSymptoms(SymptomAssessmentRequest) returns (SymptomAssessmentResponse) {}
+}
+
+message ExamExtractionRequest {
+  bytes pdf_content = 1;
 }
 
 message ContextExtractionRequest {

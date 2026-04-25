@@ -79,6 +79,7 @@ O motor Python consome dados de grafos e interage indiretamente com dados transa
 - [x] Base de conhecimento (Neo4j Graph - 26k+ doenças) ✅
 - [x] Modelos Pydantic com validação flexível
 - [x] NLP e Contextualização com LLM (Gemma 4 31B) ✅
+- [x] Extração e Parsing de Exames PDF (`pdfplumber` + LLM) ✅
 - [x] Docker e Infraestrutura de Produção ✅
 - [x] Integração gRPC (Async Server) ✅
 - [x] Filtro de Grafo (Performance em Escala) ✅

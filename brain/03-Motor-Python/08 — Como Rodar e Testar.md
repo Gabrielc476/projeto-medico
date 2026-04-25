@@ -59,9 +59,13 @@ python -m pytest tests/ -v
 
 ## 🏥 Simulação Clínica End-to-End
 
-Script que testa o pipeline completo (Texto ➡️ Diagnóstico):
+Script que testa o pipeline completo (Texto Livre ➡️ Extração de Exames PDF ➡️ Diagnóstico Bayesiano):
 
 ```bash
+# 1. (Opcional) Gerar um exame PDF fictício para o teste
+python scripts/create_dummy_exam.py
+
+# 2. Rodar a simulação completa
 python scripts/simulate_case.py
 ```
 
