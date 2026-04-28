@@ -46,6 +46,9 @@ graph LR
     
     E["Lista de CUIs"] -->|request| B
     B -->|response| F["Ranking de Doenças"]
+
+    G["Idioma (pt-BR)"] -->|request| H["GetAppSymptoms"]
+    H -->|response| I["Dicionário Leigo"]
 ```
 
 ---
@@ -68,6 +71,16 @@ graph LR
 | | `posterior_probability` | Probabilidade pós-teste |
 | | `likelihood_ratio_positive` | LR+ médio |
 | | `tf_idf_score` | Score TF-IDF |
+
+### RPC 3: `GetAppSymptoms`
+
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| **Input** | `language` (string) | Idioma alvo (ex: "pt-BR") |
+| **Output** | `symptoms[]` | Lista de `{cui, clinical_name, layman_term, body_region}` |
+
+> [!important] Tradução Inteligente
+> Este RPC utiliza o **Gemma 4** internamente para converter os termos médicos técnicos em termos simples que o paciente entende. Recomenda-se que o Gateway faça cache desse resultado.
 
 ---
 

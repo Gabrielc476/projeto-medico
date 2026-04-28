@@ -6,6 +6,22 @@ service DiagnosticService {
   rpc ExtractContext(ContextExtractionRequest) returns (ContextExtractionResponse) {}
   rpc ExtractExam(ExamExtractionRequest) returns (ContextExtractionResponse) {}
   rpc AssessSymptoms(SymptomAssessmentRequest) returns (SymptomAssessmentResponse) {}
+  rpc GetAppSymptoms(GetAppSymptomsRequest) returns (GetAppSymptomsResponse) {}
+}
+
+message GetAppSymptomsRequest {
+  string language = 1; // e.g., "pt-BR"
+}
+
+message AppSymptom {
+  string cui = 1;
+  string clinical_name = 2;
+  string layman_term = 3;
+  string body_region = 4;
+}
+
+message GetAppSymptomsResponse {
+  repeated AppSymptom symptoms = 1;
 }
 
 message ExamExtractionRequest {

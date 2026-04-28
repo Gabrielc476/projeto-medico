@@ -112,3 +112,51 @@ class LLMExtractor:
             logger.error(f"FATAL: LLM Extraction failed: {e}", exc_info=True)
             # Return empty response on failure to allow fallback
             return ExtractionResponse(symptoms=[], context=ClinicalContext())
+
+    def translate_symptoms(self, symptoms: List[Dict[str, Any]], language: str = "pt-BR") -> Dict[str, str]:
+        """Translate a list of clinical symptom names to layman terms using LLM.
+        
+        Args:
+            symptoms: List of symptom dicts (cui, name).
+            language: Target language/culture for the layman terms.
+            
+        Returns:
+            A mapping of CUI to layman term.
+        """
+        if not self._client:
+            # Fallback to original names if LLM is unavailable
+            return {s["cui"]: s["name"] for s in symptoms}
+
+        symptoms_list = "\n".join([f"- {s['name']} (CUI: {s['cui']})" for s in symptoms])
+
+        prompt = f"""
+        You are a medical translator specialized in patient communication.
+        Translate the following clinical symptom names into simple, layman terms in {language}.
+        The goal is to help a patient identify their symptoms on a mobile app body map.
+
+        CLINICAL SYMPTOMS:
+        {symptoms_list}
+
+        RULES:
+        1. Keep it short and natural (e.g., "Dyspnea" -> "Falta de ar").
+        2. Use common terms used in {language}.
+        3. Return ONLY a JSON object where keys are CUIs and values are the layman terms.
+        """
+
+        try:
+            response = self._client.models.generate_content(
+                model=self.model_id,
+                contents=prompt,
+                config={
+                    "response_mime_type": "application/json",
+                }
+            )
+            
+            import json
+            mapping = json.loads(response.text)
+            logger.info(f"LLM successfully translated {len(mapping)} symptoms.")
+            return mapping
+            
+        except Exception as e:
+            logger.error(f"LLM Translation failed: {e}")
+            return {s["cui"]: s["name"] for s in symptoms}

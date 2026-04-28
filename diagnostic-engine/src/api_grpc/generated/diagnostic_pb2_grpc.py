@@ -49,6 +49,11 @@ class DiagnosticServiceStub(object):
                 request_serializer=diagnostic__pb2.SymptomAssessmentRequest.SerializeToString,
                 response_deserializer=diagnostic__pb2.SymptomAssessmentResponse.FromString,
                 _registered_method=True)
+        self.GetAppSymptoms = channel.unary_unary(
+                '/diagnostic.DiagnosticService/GetAppSymptoms',
+                request_serializer=diagnostic__pb2.GetAppSymptomsRequest.SerializeToString,
+                response_deserializer=diagnostic__pb2.GetAppSymptomsResponse.FromString,
+                _registered_method=True)
 
 
 class DiagnosticServiceServicer(object):
@@ -72,6 +77,12 @@ class DiagnosticServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetAppSymptoms(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_DiagnosticServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -89,6 +100,11 @@ def add_DiagnosticServiceServicer_to_server(servicer, server):
                     servicer.AssessSymptoms,
                     request_deserializer=diagnostic__pb2.SymptomAssessmentRequest.FromString,
                     response_serializer=diagnostic__pb2.SymptomAssessmentResponse.SerializeToString,
+            ),
+            'GetAppSymptoms': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetAppSymptoms,
+                    request_deserializer=diagnostic__pb2.GetAppSymptomsRequest.FromString,
+                    response_serializer=diagnostic__pb2.GetAppSymptomsResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -172,6 +188,33 @@ class DiagnosticService(object):
             '/diagnostic.DiagnosticService/AssessSymptoms',
             diagnostic__pb2.SymptomAssessmentRequest.SerializeToString,
             diagnostic__pb2.SymptomAssessmentResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetAppSymptoms(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/diagnostic.DiagnosticService/GetAppSymptoms',
+            diagnostic__pb2.GetAppSymptomsRequest.SerializeToString,
+            diagnostic__pb2.GetAppSymptomsResponse.FromString,
             options,
             channel_credentials,
             insecure,

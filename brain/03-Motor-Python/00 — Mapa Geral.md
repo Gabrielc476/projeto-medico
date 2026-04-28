@@ -83,3 +83,4 @@ O motor Python consome dados de grafos e interage indiretamente com dados transa
 - [x] Docker e Infraestrutura de Produção ✅
 - [x] Integração gRPC (Async Server) ✅
 - [x] Filtro de Grafo (Performance em Escala) ✅
+- [x] Tradução Semântica de Sintomas (Termos Leigos via LLM) ✅

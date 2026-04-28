@@ -150,6 +150,46 @@ class DiagnosticServicer(diagnostic_pb2_grpc.DiagnosticServiceServicer):
         return diagnostic_pb2.ContextExtractionResponse(features=pb_features)
 
     # -----------------------------------------------------------------
+    # RPC: GetAppSymptoms
+    # -----------------------------------------------------------------
+    def GetAppSymptoms(
+        self,
+        request: Any,
+        context: grpc.ServicerContext,
+    ) -> Any:
+        """Return all symptoms with clinical names translated to layman terms via LLM.
+
+        Input:  ``GetAppSymptomsRequest { language: str }``
+        Output: ``GetAppSymptomsResponse { symptoms: [AppSymptom] }``
+        """
+        # 1. Get all symptoms from Knowledge Base
+        all_symptoms = self._kb.get_all_symptoms()
+        symptom_dicts = [{"cui": s.cui, "name": s.name} for s in all_symptoms]
+        
+        logger.info(f"GetAppSymptoms: Translating {len(symptom_dicts)} symptoms to {request.language}")
+
+        # 2. Use LLM to generate layman terms (via the internal _llm of our extractor)
+        layman_mapping = self._extractor._llm.translate_symptoms(
+            symptom_dicts, 
+            language=request.language
+        )
+        
+        # 3. Build response
+        pb_symptoms = []
+        for s in all_symptoms:
+            layman_term = layman_mapping.get(s.cui, s.name)
+            pb_symptoms.append(
+                diagnostic_pb2.AppSymptom(
+                    cui=s.cui,
+                    clinical_name=s.name,
+                    layman_term=layman_term,
+                    body_region=s.body_region or "constitutional",
+                )
+            )
+            
+        return diagnostic_pb2.GetAppSymptomsResponse(symptoms=pb_symptoms)
+
+    # -----------------------------------------------------------------
     # RPC: AssessSymptoms
     # -----------------------------------------------------------------
     def AssessSymptoms(

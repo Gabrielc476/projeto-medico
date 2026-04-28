@@ -61,7 +61,7 @@ O sistema foi arquitetado para suportar escalabilidade massiva sem perder a exat
    - Transforma a "Contextualização" de texto livre em entidades estruturadas (fatores de risco).
    - Extrai **exames laboratoriais de PDFs** em formato tabular ou texto usando `pdfplumber`, isolando marcadores em "estado de anormalidade".
    - Ambos fornecem "Probabilidades a Priori" (Priors) mais refinadas ao motor.
-3. No Python, o **scispaCy** valida e normaliza os termos de sintomas contra a base UMLS.
+3. No Python, a **LLM** valida e normaliza os termos de sintomas contra a base UMLS.
 4. O algoritmo calcula a penalidade *TF-IDF* e propaga as evidências combinadas no Grafo Direcionado (DAG) da **Rede Bayesiana**.
 5. Vetores de probabilidade pós-teste e as *Razões de Verossimilhança* são devolvidos em milissegundos para o gateway.
 
