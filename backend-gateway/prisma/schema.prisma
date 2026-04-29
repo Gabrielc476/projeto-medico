@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Patient {
+  id        String   @id @default(uuid())
+  name      String
+  email     String?  @unique
+  sessions  TriageSession[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TriageSession {
+  id          String   @id @default(uuid())
+  patientId   String
+  patient     Patient  @relation(fields: [patientId], references: [id])
+  status      String   // PENDING, IN_PROGRESS, COMPLETED, CANCELLED
+  currentStep Int      @default(1)
+  symptoms    String[] // Array of CUIs
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

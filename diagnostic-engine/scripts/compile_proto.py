@@ -13,7 +13,7 @@ from pathlib import Path
 
 def main() -> None:
     project_root = Path(__file__).resolve().parent.parent
-    proto_dir = project_root / "proto"
+    proto_dir = project_root.parent / "shared" / "proto"
     output_dir = project_root / "src" / "api_grpc" / "generated"
 
     # Ensure output directory exists

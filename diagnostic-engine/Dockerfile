@@ -29,9 +29,6 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 # Copiar o código fonte e dados
 COPY . .
 
-# Compilar stubs do gRPC para garantir que as atualizações do proto sejam refletidas
-RUN python scripts/compile_proto.py
-
 # Variáveis de ambiente padrão
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1

@@ -12,6 +12,7 @@ services:
       - ./diagnostic-engine/.env
     volumes:
       - ./diagnostic-engine:/app
+      - ./shared/proto:/shared/proto
     # Hot Reload: Monitora mudanças em .py e .json e reinicia o servidor
     command: >
       sh -c "pip install -e '.[dev]' &&
@@ -22,6 +23,34 @@ services:
       --pattern='*.py;*.json' 
       --recursive 
       -- python -m src.main"
+    networks:
+      - medical-network
+
+  backend-gateway:
+    build:
+      context: ./backend-gateway
+      dockerfile: Dockerfile
+    container_name: backend-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - CI=true
+      - DIAGNOSTIC_ENGINE_URL=diagnostic-engine:50051
+      - DATABASE_URL=postgresql://admin:medical123@postgres-medical:5432/medical_ehr?schema=public
+    volumes:
+      - ./backend-gateway:/app
+      - ./shared:/app/shared
+      - /app/node_modules
+    command: >
+      sh -c "pnpm install && 
+             npx prisma generate && 
+             pnpm start:dev"
+    depends_on:
+      - diagnostic-engine
+      - postgres
+      - kafka
     networks:
       - medical-network
 
