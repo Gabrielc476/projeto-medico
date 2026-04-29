@@ -20,8 +20,8 @@ Registro cronológico das decisões que moldam este projeto.
 - **Contexto:** Durante a estabilização do `backend-gateway` no Docker, o Prisma 7 apresentou incompatibilidades críticas com os binários do motor Rust (Query Engine) ao rodar em containers Linux sobre hosts Windows. Além disso, a validação de esquema da versão 7 impôs novas restrições sobre a configuração de `datasources`.
 - **Decisão:** Abandonar o uso do motor Rust padrão e adotar o **Prisma Driver Adapter** (`@prisma/adapter-pg`). A conexão com o banco de dados PostgreSQL passou a ser gerenciada por um pool do `pg` (Node-Postgres) injetado manualmente no `PrismaClient` via código, removendo a URL de conexão do arquivo `schema.prisma`.
 - **Consequências:** Estabilidade total do ambiente Docker, eliminação de erros de binários ausentes e maior controle sobre o ciclo de vida das conexões. Como contrapartida, a configuração do `PrismaService` tornou-se mais explícita e menos dependente de automações do CLI do Prisma.
-### Decisão 004: Remoção Temporária do Kafka e Zookeeper
+### Decisão 004: Restauração do Kafka e Zookeeper (Reversão)
 - **Data:** 2026-04-29
-- **Contexto:** Os serviços Kafka e Zookeeper estavam presentes na infraestrutura de containers mas não estavam sendo consumidos por nenhuma funcionalidade implementada no código. Como esses serviços possuem um consumo de memória RAM e CPU considerável, estavam impactando a performance do ambiente de desenvolvimento.
-- **Decisão:** Remover os serviços Kafka e Zookeeper do arquivo `docker-compose.yml` e das dependências de boot do `backend-gateway`. A prioridade atual é a estabilização do fluxo síncrono de triagem via gRPC.
-- **Consequências:** Ambiente de desenvolvimento significativamente mais leve e rápido para inicializar. A arquitetura orientada a eventos (EDA) permanece nos planos futuros, mas será reintroduzida apenas quando houver necessidade de uso real (ex: telemetria ou notificações assíncronas).
+- **Contexto:** Após a remoção inicial para otimização de recursos, foi identificado que os scripts de enriquecimento de dados (`enrich_knowledge_base.py`) utilizam o Kafka para publicar dados de doenças, sintomas e mapeamentos ontológicos.
+- **Decisão:** Reverter a remoção e manter o Kafka e Zookeeper ativos na infraestrutura. Eles são essenciais para o pipeline de dados que alimenta a base Neo4j.
+- **Consequências:** O ambiente volta a ter o pipeline de dados operacional. A carga de recursos é justificada pela necessidade de processamento de dados do motor de diagnóstico.

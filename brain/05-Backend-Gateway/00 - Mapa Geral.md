@@ -9,6 +9,7 @@ graph TD
     Client[App Mobile / Web] -->|REST/HTTP| Gateway[Backend Gateway - NestJS]
     Gateway -->|Driver Adapter| Postgres[(PostgreSQL - Prisma 7)]
     Gateway -->|gRPC| Diagnostic[Python Diagnostic Engine]
+    Gateway -->|Pub/Sub| Kafka[Kafka Message Broker]
     Diagnostic -->|UMLS/Graph| Neo4j[(Neo4j DB)]
 ```
 

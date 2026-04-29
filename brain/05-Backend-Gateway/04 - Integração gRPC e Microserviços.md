@@ -31,3 +31,9 @@ protoPath: join(process.cwd(), 'shared/proto/diagnostic.proto')
 
 - **Timeout**: As chamadas para o motor Python possuem um timeout configurado, especialmente crÃ­tico quando o motor utiliza LLMs externos (como Gemini), que podem demorar para responder.
 - **Observables**: A integraÃ§Ã£o usa `rxjs`, permitindo manipulaÃ§Ã£o reativa dos fluxos de dados retornados pelo gRPC.
+
+## ?? Integração com Kafka (Pipeline de Dados)
+
+Além do gRPC, o sistema utiliza o **Kafka** para o pipeline de ingestão de dados:
+- **Scripts de Enriquecimento**: O script enrich_knowledge_base.py atua como um Producer, enviando novos dados médicos para tópicos como medical.knowledge.diseases.
+- **Arquitetura Event-Driven**: Esta abordagem permite que a base de conhecimento (Neo4j) seja alimentada de forma assíncrona, sem impactar a performance das consultas de triagem em tempo real.

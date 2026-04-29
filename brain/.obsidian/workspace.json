@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "05-Backend-Gateway/INTEGRATION_TEST_PLAN.md",
+                "file": "03-Motor-Python/03 — Base de Conhecimento.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "INTEGRATION_TEST_PLAN"
+              "title": "03 — Base de Conhecimento"
             }
           }
         ]
@@ -185,6 +185,8 @@
   },
   "active": "9debb57229a6a665",
   "lastOpenFiles": [
+    "03-Motor-Python/08 — Como Rodar e Testar.md",
+    "05-Backend-Gateway/INTEGRATION_TEST_PLAN.md",
     "05-Backend-Gateway/06 - Docker e Infraestrutura.md",
     "05-Backend-Gateway/05 - Como Rodar e Testar.md",
     "05-Backend-Gateway/04 - Integração gRPC e Microserviços.md",
@@ -193,7 +195,6 @@
     "05-Backend-Gateway/01 - Visão Geral da Arquitetura.md",
     "05-Backend-Gateway/00 - Mapa Geral.md",
     "05-Backend-Gateway/PRISMA_PLAN.md",
-    "05-Backend-Gateway/INTEGRATION_TEST_PLAN.md",
     "05-Backend-Gateway/SPEC.md",
     "05-Backend-Gateway/PLAN.md",
     "05-Backend-Gateway/TEST_PLAN.md",
@@ -209,7 +210,6 @@
     "03-Reunioes-e-Diario/Log-de-Decisoes.md",
     "00-Index.md",
     "03-Motor-Python/09 — Docker e Infraestrutura.md",
-    "03-Motor-Python/08 — Como Rodar e Testar.md",
     "03-Motor-Python/05 — TF-IDF e Espaço Vetorial.md",
     "03-Motor-Python/04 — Matemática Bayesiana.md",
     "04-Base-de-Dados"
