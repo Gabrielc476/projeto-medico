@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 import { DiagnosticGrpcClient } from './diagnostic-engine.client';
+import { IDiagnosticClient } from '../../domain/ports/diagnostic-client.port';
 
 @Module({
   imports: [
@@ -18,12 +19,20 @@ import { DiagnosticGrpcClient } from './diagnostic-engine.client';
             package: 'diagnostic',
             protoPath: join(process.cwd(), 'shared/proto/diagnostic.proto'),
             url: configService.get<string>('DIAGNOSTIC_ENGINE_URL') || 'diagnostic-engine:50051',
+            loader: {
+              keepCase: true,
+            },
           },
         }),
       },
     ]),
   ],
-  providers: [DiagnosticGrpcClient],
-  exports: [DiagnosticGrpcClient],
+  providers: [
+    {
+      provide: IDiagnosticClient,
+      useClass: DiagnosticGrpcClient,
+    },
+  ],
+  exports: [IDiagnosticClient],
 })
 export class GrpcModule {}

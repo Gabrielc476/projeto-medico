@@ -10,10 +10,12 @@ model Patient {
   id        String   @id @default(uuid())
   name      String
   email     String?  @unique
+  password  String   // Hash da senha para login local
   sessions  TriageSession[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
 
 model TriageSession {
   id          String   @id @default(uuid())

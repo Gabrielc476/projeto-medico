@@ -160,7 +160,7 @@ A plataforma foi desenhada seguindo o princípio **Security by Design** (LGPD / 
 | 🐍 Motor Python — gRPC Server (Neo4j Sync) | ✅ Completo | 14/14 |
 | 🐍 Motor Python — NLP e Extração de PDF (Gemma 4 + scispaCy) | ✅ Completo | 4/4 |
 | 🐳 Docker / Infra (Neo4j + Postgres) | ✅ Pronto | — |
-| 🔀 NestJS Gateway | 🔲 Não iniciado | — |
+| 🔀 NestJS Gateway | ✅ Estrutura e Auth | 3/3 (Int) |
 | 📱 React Native App | 🔲 Não iniciado | — |
 | 🖥️ Next.js Admin | 🔲 Não iniciado | — |
 

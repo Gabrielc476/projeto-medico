@@ -2,11 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { GrpcModule } from '../../src/infrastructure/grpc/grpc.module';
 import { DiagnosticGrpcClient } from '../../src/infrastructure/grpc/diagnostic-engine.client';
+import { IDiagnosticClient } from '../../src/domain/ports/diagnostic-client.port';
 import { ConfigModule } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 
 describe('DiagnosticGrpcClient (Integration)', () => {
-  let client: DiagnosticGrpcClient;
+  let client: IDiagnosticClient;
   let module: TestingModule;
 
   beforeAll(async () => {
@@ -17,7 +18,7 @@ describe('DiagnosticGrpcClient (Integration)', () => {
       ],
     }).compile();
 
-    client = module.get<DiagnosticGrpcClient>(DiagnosticGrpcClient);
+    client = module.get<IDiagnosticClient>(IDiagnosticClient);
     // OnModuleInit will be called by Nest when we call init()
     await module.init();
   });
@@ -39,5 +40,5 @@ describe('DiagnosticGrpcClient (Integration)', () => {
       console.error('Integration test failed. Is the Python engine running?', error);
       throw error;
     }
-  }, 30000);
+  }, 120000);
 });

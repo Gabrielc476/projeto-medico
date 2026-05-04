@@ -11,14 +11,10 @@
             "id": "9debb57229a6a665",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "03-Motor-Python/03 — Base de Conhecimento.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "03 — Base de Conhecimento"
+              "title": "Nova aba"
             }
           }
         ]
@@ -185,6 +181,9 @@
   },
   "active": "9debb57229a6a665",
   "lastOpenFiles": [
+    "is_available().md",
+    "05-Backend-Gateway/00 - Mapa Geral.md",
+    "03-Motor-Python/03 — Base de Conhecimento.md",
     "03-Motor-Python/08 — Como Rodar e Testar.md",
     "05-Backend-Gateway/INTEGRATION_TEST_PLAN.md",
     "05-Backend-Gateway/06 - Docker e Infraestrutura.md",
@@ -193,7 +192,6 @@
     "05-Backend-Gateway/03 - Persistência com Prisma 7.md",
     "05-Backend-Gateway/02 - Domínio e Entidades.md",
     "05-Backend-Gateway/01 - Visão Geral da Arquitetura.md",
-    "05-Backend-Gateway/00 - Mapa Geral.md",
     "05-Backend-Gateway/PRISMA_PLAN.md",
     "05-Backend-Gateway/SPEC.md",
     "05-Backend-Gateway/PLAN.md",
@@ -203,7 +201,6 @@
     "03-Motor-Python/07 — gRPC e Comunicação.md",
     "05-Backend-Gateway",
     "03-Motor-Python/06 — NLP com scispaCy.md",
-    "03-Motor-Python/03 — Base de Conhecimento.md",
     "04-Base-de-Dados/03 — Implementação e Entidades.md",
     "04-Base-de-Dados/01 — Conceitos Neo4j.md",
     "03-Motor-Python/02 — Modelos de Dados (Pydantic).md",
@@ -211,7 +208,6 @@
     "00-Index.md",
     "03-Motor-Python/09 — Docker e Infraestrutura.md",
     "03-Motor-Python/05 — TF-IDF e Espaço Vetorial.md",
-    "03-Motor-Python/04 — Matemática Bayesiana.md",
     "04-Base-de-Dados"
   ]
 }

@@ -7,7 +7,7 @@ export default defineConfig({
     globals: true,
     root: './',
     environment: 'node',
-    testTimeout: 10000, // Longer timeout for real network calls
+    testTimeout: 120000, // Longer timeout for real network and LLM calls
   },
   plugins: [
     swc.vite({

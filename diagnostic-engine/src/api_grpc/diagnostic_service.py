@@ -171,7 +171,7 @@ class DiagnosticServicer(diagnostic_pb2_grpc.DiagnosticServiceServicer):
         # 2. Use LLM to generate layman terms (via the internal _llm of our extractor)
         layman_mapping = self._extractor._llm.translate_symptoms(
             symptom_dicts, 
-            language=request.language
+            language=request.language or "pt-BR"
         )
         
         # 3. Build response
@@ -208,6 +208,8 @@ class DiagnosticServicer(diagnostic_pb2_grpc.DiagnosticServiceServicer):
         3. Run TF-IDF cosine similarity scoring.
         4. Merge both scores into ``RankedDisease`` messages.
         """
+        logger.info(f"DEBUG: Request received: {request}")
+        
         # 1. Collect CUIs from the request (Symptoms + Contextual Factors)
         patient_cuis = [s.cui for s in request.symptoms if s.is_present]
         context_cuis = [c.cui for c in request.contextual_factors if c.is_present]

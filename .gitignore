@@ -51,3 +51,9 @@ Thumbs.db
 **/shared/proto/generated/
 brain/.obsidian/workspace.json
 brain/.obsidian/workspace-mobile.json
+
+# Graphify Knowledge Graph
+graphify-out/
+.graphifyignore
+brain/wiki
+.internal-graphify-notes-vault-ignore

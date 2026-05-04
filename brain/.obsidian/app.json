@@ -1,1 +1,10 @@
-{}
+{
+  "userIgnoreFilters": [
+    "graphify-out/",
+    ".internal-graphify-notes/",
+    "node_modules/",
+    ".git/",
+    ".graphifyignore",
+    "graphify-metadata.json"
+  ]
+}

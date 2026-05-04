@@ -1,6 +1,5 @@
 import { Injectable, OnModuleInit, Inject } from '@nestjs/common';
-import { Client, type ClientGrpc, Transport } from '@nestjs/microservices';
-import { join } from 'path';
+import { type ClientGrpc } from '@nestjs/microservices';
 
 import { DiagnosticService } from '../../domain/types/diagnostic';
 import { IDiagnosticClient } from '../../domain/ports/diagnostic-client.port';
@@ -15,7 +14,14 @@ export class DiagnosticGrpcClient implements OnModuleInit, IDiagnosticClient {
     this.diagnosticService = this.client.getService<DiagnosticService>('DiagnosticService');
   }
 
-  getAppSymptoms() {
-    return this.diagnosticService.getAppSymptoms({});
+  getAppSymptoms(language?: string) {
+    return this.diagnosticService.getAppSymptoms({ language });
+  }
+
+  assessSymptoms(symptoms: any[], contextualFactors: any[]) {
+    return this.diagnosticService.assessSymptoms({
+      symptoms,
+      contextual_factors: contextualFactors,
+    });
   }
 }
