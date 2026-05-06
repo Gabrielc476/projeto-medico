@@ -38,10 +38,26 @@ O projeto é modularizado para facilitar a manutenção:
 - `GrpcModule`: Encapsula a complexidade dos clientes gRPC.
 - `InfrastructureModule`: Agrega todos os adaptadores externos.
 - `ApplicationModule`: Registra os Casos de Uso.
+- `KafkaModule`: Gerencia a conexão e publicação de eventos no broker.
 - `AppModule`: O módulo raiz que orquestra tudo.
+- `AuthModule`: Gerencia autenticação e guarda de rotas (JWT).
+
 
 ## 🛡️ Princípios Aplicados
 
 - **S.O.L.I.D.**: Especialmente o *Dependency Inversion* (DIP).
 - **ESM Nativo**: O projeto utiliza módulos ECMAScript para performance e compatibilidade com ferramentas modernas.
 - **Strict Typing**: TypeScript configurado em modo estrito para evitar erros de runtime.
+
+## 🛡️ Segurança e Observabilidade (Task 2)
+
+### Zero-Trust mTLS
+A comunicação entre o **Backend Gateway** e o **Diagnostic Engine** é protegida por **mTLS (Mutual TLS)**. 
+- Cada serviço possui seu próprio certificado assinado por uma CA interna.
+- O handshake garante que apenas serviços autorizados se comuniquem, eliminando vetores de ataque internos.
+
+### Auditoria Global
+Implementamos um sistema de log de auditoria via **Interceptors**.
+- **AuditLogInterceptor**: Captura automaticamente payloads e metadados de ações clínicas e de autenticação.
+- **Kafka**: Os logs são publicados de forma assíncrona no tópico `audit.logs`, garantindo durabilidade e rastreabilidade total sem impactar a performance do usuário.
+

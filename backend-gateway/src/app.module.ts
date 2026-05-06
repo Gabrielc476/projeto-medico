@@ -5,6 +5,9 @@ import { InfrastructureModule } from './infrastructure/infrastructure.module';
 import { AuthModule } from './infrastructure/auth/auth.module';
 import { SymptomController } from './presentation/http/symptom.controller';
 import { TriageController } from './presentation/http/triage.controller';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { AuditLogInterceptor } from './presentation/interceptors/audit-log.interceptor';
+
 
 @Module({
   imports: [
@@ -15,6 +18,12 @@ import { TriageController } from './presentation/http/triage.controller';
   ],
 
   controllers: [SymptomController, TriageController],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: AuditLogInterceptor,
+    },
+  ],
+
 })
 export class AppModule {}

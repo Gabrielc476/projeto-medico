@@ -22,6 +22,7 @@ Co-Authored-By: Antigravity <noreply@google.com>
 ```
 
 ## Engineering Rules
+- **Session Startup**: ALWAYS run `python -m graphify update .` and use relevant task-related skills to gain context before starting any implementation.
 - **Spec-Driven**: Create Implementation Plan before coding
 - **Review**: Await approval before generating code
 - **UI Design**: See `DESIGN.md` for Linear-inspired design system

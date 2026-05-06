@@ -36,7 +36,7 @@ Bem-vindo ao Vault do projeto médico. Este espaço serve como a memória de tra
 | 🐍 Motor Python — gRPC | ✅ Completo | 14/14 |
 | 🐍 Motor Python — NLP | ✅ Completo (Fallback PT-BR) | 4/4 |
 | 🐳 Docker / Infra | ✅ Pronto | — |
-| 🔀 NestJS Gateway | ❌ Não iniciado | — |
+| 🔀 NestJS Gateway | ⚠️ Em andamento (Kafka/CDC implementado) | 6/6 (Int) |
 | 📱 React Native App | ❌ Não iniciado | — |
 | 🖥️ Next.js Admin | ❌ Não iniciado | — |
 

@@ -1,0 +1,20 @@
+{
+  "name": "neo4j-sink",
+  "config": {
+    "connector.class": "org.neo4j.connectors.kafka.sink.Neo4jConnector",
+    "topics": "cdc.public.Patient,cdc.public.TriageSession",
+    "neo4j.uri": "bolt://neo4j:7687",
+    "neo4j.authentication.type": "BASIC",
+    "neo4j.authentication.basic.username": "neo4j",
+    "neo4j.authentication.basic.password": "medical123",
+    "neo4j.cypher.topic.cdc.public.Patient": "MERGE (p:Patient {id: __value.id}) SET p.name = __value.name, p.email = __value.email",
+    "neo4j.cypher.topic.cdc.public.TriageSession": "MERGE (t:TriageSession {id: __value.id}) SET t.status = __value.status WITH t, __value MATCH (p:Patient {id: __value.patientId}) MERGE (p)-[:HAS_SESSION]->(t)",
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter.schemas.enable": "false",
+    "errors.tolerance": "all",
+    "errors.log.enable": "true",
+    "errors.log.include.messages": "true"
+  }
+}

@@ -30,6 +30,8 @@ describe('PrismaTriageRepository (Integration)', () => {
       data: {
         id: 'test-patient-integration',
         name: 'Test Integration Patient',
+        email: 'test@integration.com',
+        password: 'hashed-password',
       }
     });
 
@@ -47,5 +49,6 @@ describe('PrismaTriageRepository (Integration)', () => {
     expect(found).not.toBeNull();
     expect(found?.patientId).toBe('test-patient-integration');
     expect(found?.toJSON().symptoms).toEqual(['C001', 'C002']);
+    expect(found?.contextualFactors).toEqual([]);
   });
 });

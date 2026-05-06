@@ -1,13 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
+  const logger = new Logger('Bootstrap');
 
-  // Habilitar CORS para o frontend
-  app.enableCors();
+  // Configurar CORS com origins específicas
+  const corsOrigin = configService.get<string>('CORS_ORIGIN', 'http://localhost:3001');
+  app.enableCors({
+    origin: corsOrigin.split(',').map(o => o.trim()),
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    credentials: true,
+  });
 
   // Validação global
   app.useGlobalPipes(
@@ -28,9 +36,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
 
-  await app.listen(process.env.PORT ?? 3000);
-  console.log(`[Gateway] Servidor rodando em: http://localhost:${process.env.PORT ?? 3000}`);
-  console.log(`[Gateway] Documentação Swagger em: http://localhost:${process.env.PORT ?? 3000}/api/docs`);
+  const port = configService.get<number>('PORT', 3000);
+  await app.listen(port);
+  logger.log(`Servidor rodando em: http://localhost:${port}`);
+  logger.log(`Documentação Swagger em: http://localhost:${port}/api/docs`);
 }
 bootstrap();
-

@@ -45,17 +45,20 @@ O motor Python é **Stateless** (não guarda estado):
 ## 🔄 Fluxo de Sincronização
 
 > [!info] Como o Grafo se mantém atualizado?
-> Usamos o padrão **Change Data Capture (CDC)** com Kafka.
+> Usamos o padrão **Change Data Capture (CDC)** com Debezium e Apache Kafka.
 
 ```mermaid
 sequenceDiagram
-    participant P as Postgres (NestJS)
+    participant P as Postgres (EHR)
+    participant D as Debezium
     participant K as Kafka
     participant N as Neo4j
     participant PY as Python Engine
 
-    P->>K: Novo Sintoma/Doença via Admin
-    K->>N: Sincronização (Consumidor)
+    P->>D: Write Ahead Log (WAL)
+    D->>K: Publish Change Event
+    K->>N: Sincronização Sink (Neo4j)
+    Note over P,K: Eventos manuais (triage.completed) via KafkaService
     PY->>N: Consulta pesos médicos
     PY->>PY: Calcula diagnóstico
 ```

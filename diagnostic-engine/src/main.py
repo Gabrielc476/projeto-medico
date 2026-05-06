@@ -48,8 +48,26 @@ async def serve() -> None:
         servicer, server
     )
 
-    server.add_insecure_port(listen_addr)
-    logger.info("Starting async gRPC Diagnostic Engine on %s", listen_addr)
+    # Load mTLS certificates
+    try:
+        with open('/shared/certs/server.key', 'rb') as f:
+            private_key = f.read()
+        with open('/shared/certs/server.crt', 'rb') as f:
+            certificate_chain = f.read()
+        with open('/shared/certs/ca.crt', 'rb') as f:
+            root_certificates = f.read()
+
+        server_credentials = grpc.ssl_server_credentials(
+            [(private_key, certificate_chain)],
+            root_certificates=root_certificates,
+            require_client_auth=True
+        )
+        server.add_secure_port(listen_addr, server_credentials)
+        logger.info("Starting SECURE async gRPC Diagnostic Engine (mTLS) on %s", listen_addr)
+    except FileNotFoundError:
+        logger.warning("Certs not found. Falling back to INSECURE port.")
+        server.add_insecure_port(listen_addr)
+        logger.info("Starting INSECURE async gRPC Diagnostic Engine on %s", listen_addr)
 
     await server.start()
     logger.info("Server started — waiting for requests...")

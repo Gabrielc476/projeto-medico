@@ -16,12 +16,12 @@ RUN npx prisma generate
 RUN pnpm build
 
 # --- STAGE 4: Production ---
-FROM node:20-slim AS runtime
-RUN apt-get update -y && apt-get install -y openssl
-RUN npm install -g pnpm
+FROM base AS runtime
+# openssl already installed in base
 WORKDIR /app
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/prisma ./prisma
 COPY package.json ./
 
 EXPOSE 3000

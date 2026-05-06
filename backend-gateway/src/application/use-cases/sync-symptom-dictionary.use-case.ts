@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { IDiagnosticClient } from '../../domain/ports/diagnostic-client.port';
 import { ISymptomCache } from '../../domain/ports/symptom-cache.port';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, timeout } from 'rxjs';
 import { type AppSymptomResponse } from '../../domain/types/diagnostic';
 
 @Injectable()
@@ -18,7 +18,9 @@ export class SyncSymptomDictionaryUseCase {
       this.logger.log('Starting symptom dictionary synchronization...');
       
       // Call GetAppSymptoms via port
-      const response: AppSymptomResponse = await firstValueFrom(this.diagnosticClient.getAppSymptoms('pt-BR'));
+      const response: AppSymptomResponse = await firstValueFrom(
+        this.diagnosticClient.getAppSymptoms('pt-BR').pipe(timeout(30000)),
+      );
       
       if (response && response.symptoms) {
         for (const symptom of response.symptoms) {

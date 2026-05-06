@@ -10,7 +10,10 @@ graph TD
     Gateway -->|Driver Adapter| Postgres[(PostgreSQL - Prisma 7)]
     Gateway -->|gRPC| Diagnostic[Python Diagnostic Engine]
     Gateway -->|Pub/Sub| Kafka[Kafka Message Broker]
-    Diagnostic -->|UMLS/Graph| Neo4j[(Neo4j DB)]
+    Postgres -->|WAL/CDC| Debezium[Debezium Connector]
+    Debezium -->|Events| Kafka
+    Kafka -->|Sink| Neo4j[(Neo4j Graph)]
+    Diagnostic -->|Query| Neo4j
 ```
 
 ## 🧩 Componentes Principais
@@ -47,3 +50,4 @@ graph TD
 - **Comunicação**: gRPC (@grpc/grpc-js)
 - **Testes**: Vitest (Velocidade e ESM nativo)
 - **Infra**: Docker & Docker Compose
+- **Mensageria**: Apache Kafka & Debezium (CDC)

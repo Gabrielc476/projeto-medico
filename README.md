@@ -160,9 +160,16 @@ A plataforma foi desenhada seguindo o princípio **Security by Design** (LGPD / 
 | 🐍 Motor Python — gRPC Server (Neo4j Sync) | ✅ Completo | 14/14 |
 | 🐍 Motor Python — NLP e Extração de PDF (Gemma 4 + scispaCy) | ✅ Completo | 4/4 |
 | 🐳 Docker / Infra (Neo4j + Postgres) | ✅ Pronto | — |
-| 🔀 NestJS Gateway | ✅ Estrutura e Auth | 3/3 (Int) |
+| 🔀 NestJS Gateway | ✅ Estrutura, Auth, Extração e Kafka/CDC | 6/6 (Int) |
 | 📱 React Native App | 🔲 Não iniciado | — |
 | 🖥️ Next.js Admin | 🔲 Não iniciado | — |
+
+### 📝 Backlog / Próximos Passos (Backend Gateway)
+- [x] **Task 1**: Implementação do Motor de Triagem e Diagnóstico (PGM + LLM)
+- [x] **Task 2**: Segurança Zero-Trust (mTLS) e Auditoria Global (Kafka)
+- [x] **Task 3**: Sincronização em Tempo Real via CDC (Debezium + Neo4j)
+- [ ] **Endpoints para o Painel Clínico (Next.js Admin)**: Desenvolver rotas CQRS (Read Models) para listar histórico e detalhes de triagens.
+- [ ] **Controle Rígido de Máquina de Estados**: Implementar validação rigorosa (ex: XState) no backend para evitar que etapas da triagem sejam burladas.
 
 ---
 

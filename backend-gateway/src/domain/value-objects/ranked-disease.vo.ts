@@ -24,4 +24,9 @@ export class RankedDisease {
   get score(): number {
     return this.props.score;
   }
+
+  get explanation(): string | undefined {
+    return this.props.explanation;
+  }
 }
+

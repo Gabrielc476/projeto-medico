@@ -24,6 +24,8 @@ Todos os servi√ßos pertencem √† `medical-network`, permitindo que se comuniquem 
 - `postgres-medical`
 - `diagnostic-engine`
 - `kafka`
+- `debezium`
+- `kafka-ui`
 
 ### 3. Ordem de Inicializa√ß√£o
 O `backend-gateway` aguarda (`depends_on`) o banco de dados e o motor de diagn√≥stico, garantindo que as conex√µes n√£o falhem no boot inicial.
@@ -33,3 +35,12 @@ Usamos o mapeamento de volume `./backend-gateway:/app` junto com o comando `nest
 
 ## üîê Vari√°veis de Ambiente
 As vari√°veis cr√≠ticas (como `DATABASE_URL` e `DIAGNOSTIC_ENGINE_URL`) s√£o injetadas via Docker Compose, permitindo f√°cil troca de ambiente (dev/prod) sem alterar o c√≥digo-fonte.
+
+## ?? Mensageria e CDC (Kafka)
+
+A infraestrutura inclui suporte nativo para Change Data Capture (CDC):
+- **Kafka & Zookeeper**: Broker de mensagens para eventos de domÌnio.
+- **Debezium**: Conector que monitora o banco PostgreSQL e envia transaÁıes para o Kafka em tempo real.
+- **Kafka UI**: DisponÌvel em http://localhost:8080 para monitoramento visual dos tÛpicos.
+
+O banco PostgreSQL È configurado automaticamente com wal_level=logical para permitir a sincronizaÁ„o via Debezium.

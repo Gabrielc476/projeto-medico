@@ -46,3 +46,10 @@ export class DiagnoseTriageDto {
   @Type(() => ContextualFactorDto)
   contextualFactors: ContextualFactorDto[];
 }
+
+export class ExtractContextDto {
+  @ApiProperty({ example: 'Sinto uma dor de cabeça constante há 3 dias e febre leve.' })
+  @IsString()
+  @IsNotEmpty()
+  text: string;
+}

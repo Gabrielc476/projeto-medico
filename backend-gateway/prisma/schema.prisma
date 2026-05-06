@@ -6,10 +6,19 @@ datasource db {
   provider = "postgresql"
 }
 
+enum TriageStatus {
+  EXAM_COLLECTION
+  CONTEXT_COLLECTION
+  SYMPTOM_MAPPING
+  READY_FOR_DIAGNOSIS
+  COMPLETED
+  CANCELLED
+}
+
 model Patient {
   id        String   @id @default(uuid())
   name      String
-  email     String?  @unique
+  email     String   @unique
   password  String   // Hash da senha para login local
   sessions  TriageSession[]
   createdAt DateTime @default(now())
@@ -21,9 +30,12 @@ model TriageSession {
   id          String   @id @default(uuid())
   patientId   String
   patient     Patient  @relation(fields: [patientId], references: [id])
-  status      String   // PENDING, IN_PROGRESS, COMPLETED, CANCELLED
+  status      TriageStatus @default(EXAM_COLLECTION)
   currentStep Int      @default(1)
   symptoms    String[] // Array of CUIs
+  contextualFactors String[] // Array of extracted context/risk factors
+  examUrl     String?  // Caminho local ou URL do exame
+  diagnosticResult Json? // Rank de doencas retornado pelo motor
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

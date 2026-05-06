@@ -13,6 +13,7 @@ services:
     volumes:
       - ./diagnostic-engine:/app
       - ./shared/proto:/shared/proto
+      - ./shared/certs:/shared/certs
     # Hot Reload: Monitora mudanças em .py e .json e reinicia o servidor
     command: >
       sh -c "pip install -e '.[dev]' &&
@@ -97,6 +98,7 @@ services:
   postgres:
     image: postgres:15-alpine
     container_name: postgres-medical
+    command: ["postgres", "-c", "wal_level=logical"]
     ports:
       - "5432:5432"
     environment:
@@ -105,6 +107,44 @@ services:
       - POSTGRES_DB=medical_ehr
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - medical-network
+
+  debezium:
+    build:
+      context: .
+      dockerfile: Dockerfile.debezium
+    container_name: debezium
+    ports:
+      - "8083:8083"
+    environment:
+      - BOOTSTRAP_SERVERS=kafka:29092
+      - GROUP_ID=1
+      - CONFIG_STORAGE_TOPIC=debezium_configs
+      - OFFSET_STORAGE_TOPIC=debezium_offsets
+      - STATUS_STORAGE_TOPIC=debezium_statuses
+      - CONFIG_STORAGE_REPLICATION_FACTOR=1
+      - OFFSET_STORAGE_REPLICATION_FACTOR=1
+      - STATUS_STORAGE_REPLICATION_FACTOR=1
+      - KEY_CONVERTER=org.apache.kafka.connect.json.JsonConverter
+      - VALUE_CONVERTER=org.apache.kafka.connect.json.JsonConverter
+    depends_on:
+      - kafka
+      - postgres
+    networks:
+      - medical-network
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8080:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:29092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
+    depends_on:
+      - kafka
     networks:
       - medical-network
 

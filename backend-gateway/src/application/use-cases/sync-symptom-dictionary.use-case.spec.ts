@@ -24,8 +24,8 @@ describe('SyncSymptomDictionaryUseCase', () => {
   it('should sync symptoms from diagnostic client to cache', async () => {
     const mockResponse = {
       symptoms: [
-        { cui: 'C01', clinicalName: 'Fever', laymanTerm: 'Febre' },
-        { cui: 'C02', clinicalName: 'Cough', laymanTerm: 'Tosse' },
+        { cui: 'C01', clinical_name: 'Fever', layman_term: 'Febre' },
+        { cui: 'C02', clinical_name: 'Cough', layman_term: 'Tosse' },
       ],
     };
 

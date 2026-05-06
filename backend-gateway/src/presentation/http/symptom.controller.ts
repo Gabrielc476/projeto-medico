@@ -1,9 +1,12 @@
-import { Controller, Get, Post, HttpCode } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Controller, Get, Post, HttpCode, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { SyncSymptomDictionaryUseCase } from '../../application/use-cases/sync-symptom-dictionary.use-case';
 import { ISymptomCache } from '../../domain/ports/symptom-cache.port';
+import { JwtAuthGuard } from '../../infrastructure/auth/jwt-auth.guard';
 
 @ApiTags('Symptoms')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('symptoms')
 export class SymptomController {
   constructor(
@@ -27,4 +30,3 @@ export class SymptomController {
     return { message: 'Synchronization started' };
   }
 }
-

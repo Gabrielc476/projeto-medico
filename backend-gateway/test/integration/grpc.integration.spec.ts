@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { GrpcModule } from '../../src/infrastructure/grpc/grpc.module';
-import { DiagnosticGrpcClient } from '../../src/infrastructure/grpc/diagnostic-engine.client';
 import { IDiagnosticClient } from '../../src/domain/ports/diagnostic-client.port';
 import { ConfigModule } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';

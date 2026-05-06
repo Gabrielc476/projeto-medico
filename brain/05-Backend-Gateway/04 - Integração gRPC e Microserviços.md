@@ -1,39 +1,26 @@
-# 04 - IntegraÃ§Ã£o gRPC e MicroserviÃ§os
+# 04 - Integração gRPC e Microserviços
 
-O Backend Gateway se comunica com o **Diagnostic Engine (Python)** via **gRPC**. Esta escolha foi feita para garantir baixa latÃªncia e tipagem forte entre os serviÃ§os.
+O Backend Gateway se comunica com o **Diagnostic Engine (Python)** via **gRPC** e com o ecossistema de dados via **Kafka** (Mensageria e CDC).
 
-## ğŸ“¡ Cliente gRPC (`DiagnosticGrpcClient`)
+## ??? Cliente gRPC (DiagnosticGrpcClient)
 
-Implementamos o cliente usando o mÃ³dulo `@nestjs/microservices`. 
+Implementamos o cliente usando o módulo @nestjs/microservices.
 
-### PadrÃ£o de InjeÃ§Ã£o:
-Utilizamos o `ClientsModule.registerAsync` no `GrpcModule`. Isso permite que o cliente seja injetado via construtor, facilitando testes e mock.
+### Padrão de Injeção:
+Utilizamos o ClientsModule.registerAsync no GrpcModule. Isso permite que o cliente seja injetado via construtor.
 
-```typescript
-constructor(@Inject('DIAGNOSTIC_PACKAGE') private readonly client: ClientGrpc) {}
-```
+## ?? Mensageria e Eventos (Kafka)
 
-## ğŸ“œ Arquivos Proto
+O Gateway utiliza o **Kafka** para comunicação assíncrona e persistência em grafos:
 
-As definiÃ§Ãµes de serviÃ§o estÃ£o localizadas na pasta `shared/proto/`.
-- O arquivo principal Ã© o `diagnostic.proto`.
-- No Docker, a pasta `shared` Ã© mapeada no container para garantir que tanto o Python quanto o NestJS leiam a mesma "Fonte da Verdade".
+### 1. Change Data Capture (CDC)
+Utilizamos o **Debezium** para monitorar o banco PostgreSQL. Toda vez que uma sessão de triagem é atualizada ou criada, o Debezium captura a mudança e a publica em um tópico Kafka automaticamente. Isso alimenta o **Neo4j** para análises de grafos sem onerar a API.
 
-## ğŸ›£ï¸ ResoluÃ§Ã£o de Caminhos
+### 2. Domain Events
+O Gateway publica eventos manuais via KafkaService, como o evento 	riage.completed. Este evento contém o payload completo do diagnóstico para ser consumido por serviços de auditoria e notificações.
 
-Um desafio tÃ©cnico foi a resoluÃ§Ã£o do `protoPath`. Decidimos usar `process.cwd()` em vez de caminhos relativos complexos, garantindo que o arquivo seja encontrado independentemente de estarmos rodando o servidor ou os testes de integraÃ§Ã£o.
+## ?? Arquivos Proto
 
-```typescript
-protoPath: join(process.cwd(), 'shared/proto/diagnostic.proto')
-```
-
-## ğŸ”„ ResiliÃªncia
-
-- **Timeout**: As chamadas para o motor Python possuem um timeout configurado, especialmente crÃ­tico quando o motor utiliza LLMs externos (como Gemini), que podem demorar para responder.
-- **Observables**: A integraÃ§Ã£o usa `rxjs`, permitindo manipulaÃ§Ã£o reativa dos fluxos de dados retornados pelo gRPC.
-
-## ?? Integração com Kafka (Pipeline de Dados)
-
-Além do gRPC, o sistema utiliza o **Kafka** para o pipeline de ingestão de dados:
-- **Scripts de Enriquecimento**: O script enrich_knowledge_base.py atua como um Producer, enviando novos dados médicos para tópicos como medical.knowledge.diseases.
-- **Arquitetura Event-Driven**: Esta abordagem permite que a base de conhecimento (Neo4j) seja alimentada de forma assíncrona, sem impactar a performance das consultas de triagem em tempo real.
+As definições de serviço estão localizadas na pasta shared/proto/.
+- O arquivo principal é o diagnostic.proto.
+- No Docker, a pasta shared é mapeada no container para garantir que tanto o Python quanto o NestJS leiam a mesma 'Fonte da Verdade'.
