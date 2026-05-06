@@ -1,0 +1,16 @@
+const { getDefaultConfig } = require("expo/metro-config");
+const { withNativewind } = require("nativewind/metro");
+
+/** @type {import('expo/metro-config').MetroConfig} */
+const config = getDefaultConfig(__dirname);
+
+// Adicionar extensões 3D para o React Three Fiber
+config.resolver.assetExts.push("glb", "gltf", "obj", "mtl");
+
+module.exports = withNativewind(config, {
+  input: "./src/global.css",
+  // inline variables break PlatformColor in CSS variables
+  inlineVariables: false,
+  // We add className support manually
+  globalClassNamePolyfill: false,
+});

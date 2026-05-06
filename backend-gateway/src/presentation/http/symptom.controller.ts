@@ -1,5 +1,5 @@
-import { Controller, Get, Post, HttpCode, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { Controller, Get, Post, HttpCode, UseGuards, Query } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { SyncSymptomDictionaryUseCase } from '../../application/use-cases/sync-symptom-dictionary.use-case';
 import { ISymptomCache } from '../../domain/ports/symptom-cache.port';
 import { JwtAuthGuard } from '../../infrastructure/auth/jwt-auth.guard';
@@ -16,8 +16,12 @@ export class SymptomController {
 
   @Get()
   @ApiOperation({ summary: 'Listar todos os sintomas sincronizados' })
+  @ApiQuery({ name: 'region', required: false, description: 'Região do corpo para filtrar os sintomas (ex: head, chest, arms, legs, constitutional)' })
   @ApiResponse({ status: 200, description: 'Lista de sintomas' })
-  async getSymptoms() {
+  async getSymptoms(@Query('region') region?: string) {
+    if (region) {
+      return await this.cache.getByRegion(region);
+    }
     return await this.cache.getAll();
   }
 

@@ -1,0 +1,46 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css";
+
+/* Platform-specific font families */
+@media android {
+  :root {
+    --font-mono: monospace;
+    --font-rounded: normal;
+    --font-serif: serif;
+    --font-sans: normal;
+  }
+}
+
+@media ios {
+  :root {
+    --font-mono: ui-monospace;
+    --font-serif: ui-serif;
+    --font-sans: system-ui;
+    --font-rounded: ui-rounded;
+  }
+}
+
+@layer theme {
+  @theme {
+    /* Linear-inspired colors */
+    --color-bg-marketing: #08090a;
+    --color-bg-panel: #0f1011;
+    --color-bg-surface: #191a1b;
+    --color-bg-secondary-surface: #28282c;
+
+    --color-text-primary: #f7f8f8;
+    --color-text-secondary: #d0d6e0;
+    --color-text-tertiary: #8a8f98;
+    --color-text-quaternary: #62666d;
+
+    --color-brand-indigo: #5e6ad2;
+    --color-accent-violet: #7170ff;
+    --color-accent-hover: #828fff;
+
+    --color-border-subtle: rgba(255, 255, 255, 0.05);
+    --color-border-standard: rgba(255, 255, 255, 0.08);
+
+    /* Fonts */
+    --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  }
+}

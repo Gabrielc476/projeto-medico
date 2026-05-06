@@ -148,6 +148,21 @@ services:
     networks:
       - medical-network
 
+  mobile-app:
+    build:
+      context: ./mobile-app
+      dockerfile: Dockerfile
+    container_name: mobile-app
+    ports:
+      - "8081:8081"
+    environment:
+      - EXPO_PUBLIC_API_URL=http://localhost:3000
+    volumes:
+      - ./mobile-app:/app
+      - /app/node_modules
+    networks:
+      - medical-network
+
 networks:
   medical-network:
     driver: bridge

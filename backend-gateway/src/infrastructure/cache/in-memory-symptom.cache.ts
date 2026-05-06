@@ -28,6 +28,13 @@ export class InMemorySymptomCache implements ISymptomCache {
     }
     return results;
   }
+
+  async getByRegion(region: string): Promise<AppSymptom[]> {
+    const all = await this.getAll();
+    return all.filter(
+      (symptom) => symptom.bodyRegion?.toLowerCase() === region.toLowerCase()
+    );
+  }
     
   async clear(): Promise<void> {
     await this.cacheManager.clear();
