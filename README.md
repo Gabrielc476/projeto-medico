@@ -169,7 +169,7 @@ A plataforma foi desenhada seguindo o princípio **Security by Design** (LGPD / 
 - [x] **Task 2**: Segurança Zero-Trust (mTLS) e Auditoria Global (Kafka)
 - [x] **Task 3**: Sincronização em Tempo Real via CDC (Debezium + Neo4j)
 - [ ] **Endpoints para o Painel Clínico (Next.js Admin)**: Desenvolver rotas CQRS (Read Models) para listar histórico e detalhes de triagens.
-- [ ] **Controle Rígido de Máquina de Estados**: Implementar validação rigorosa (ex: XState) no backend para evitar que etapas da triagem sejam burladas.
+- [x] **Controle Rígido de Máquina de Estados**: Implementar validação rigorosa (ex: XState) no backend para evitar que etapas da triagem sejam burladas.
 
 ---
 
